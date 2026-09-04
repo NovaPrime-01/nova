@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0A0B" />
+
+  <title>NOVA — Digital Creator & Creative Portfolio</title>
+  <meta name="description" content="NOVA is a digital creator working at the intersection of gaming, technology and creative projects. Selected work, identity and experiments." />
+  <meta name="author" content="NOVA" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="NOVA — Digital Creator & Creative Portfolio" />
+  <meta property="og:description" content="A digital creator working at the intersection of gaming, technology and creative projects." />
+  <meta property="og:url" content="https://nova.example.com" />
+  <meta property="og:image" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NOVA — Digital Creator & Creative Portfolio" />
+  <meta name="twitter:description" content="A digital creator working at the intersection of gaming, technology and creative projects." />
+
+  <!-- Inline SVG favicon (N monogram) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0A0B'/%3E%3Cpath d='M9 23V9l14 14V9' fill='none' stroke='%23FF4D2E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+  <!-- Fonts: display = Syne, body = Inter, mono = Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- Accessibility: skip link -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressBar"></span></div>
+
+  <!-- Custom cursor (desktop only) -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+    <span class="cursor__label" id="cursorLabel"></span>
+  </div>
+
+  <!-- ===================== LOADER ===================== -->
+  <div class="loader" id="loader" role="status" aria-label="Loading">
+    <div class="loader__inner">
+      <div class="loader__mark">NOVA</div>
+      <div class="loader__bar"><span id="loaderFill"></span></div>
+      <div class="loader__meta"><span id="loaderPct">0</span><span>loading</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav" data-state="top">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__brand" data-cursor="HOME" aria-label="NOVA — home">NOVA</a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary"></nav>
+      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== MOBILE MENU ===================== -->
+  <div class="menu" id="mobileMenu" aria-hidden="true">
+    <nav class="menu__links" id="menuLinks" aria-label="Mobile"></nav>
+    <div class="menu__social" id="menuSocial"></div>
+  </div>
+
+  <!-- ===================== MAIN ===================== -->
+  <main id="main">
+    <section class="hero" id="hero" aria-labelledby="heroTitle"></section>
+    <section class="about section" id="about" aria-labelledby="aboutTitle"></section>
+    <section class="do section section--alt" id="do" aria-labelledby="doTitle"></section>
+    <section class="skills section" id="skills" aria-labelledby="skillsTitle"></section>
+    <section class="work section section--alt" id="work" aria-labelledby="workTitle"></section>
+    <div class="marquee" id="marquee" aria-hidden="true"></div>
+    <section class="gaming section" id="gaming" aria-labelledby="gamingTitle" data-reveal></section>
+    <section class="creative section" id="creative" aria-labelledby="creativeTitle"></section>
+    <section class="philosophy section section--alt" id="philosophy" aria-labelledby="philosophyTitle"></section>
+    <section class="social section" id="social" aria-labelledby="socialTitle"></section>
+    <section class="contact section" id="contact" aria-labelledby="contactTitle"></section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" id="footer"></footer>
+
+  <noscript>
+    <div style="padding:4rem 1.5rem;text-align:center;color:#fff;background:#0A0A0B;font-family:sans-serif">
+      This portfolio is interactive and requires JavaScript to display its content.
+    </div>
+  </noscript>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
