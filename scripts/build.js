@@ -1,14 +1,14 @@
-// Minimal zero-dependency build: copy the static site into ./dist
+// Minimal zero-dependency build: copy the static site into ./public
 const fs = require('fs');
 const path = require('path');
 
 const root = process.cwd();
-const dist = path.join(root, 'dist');
+const outDir = path.join(root, 'public');
 
 const copyPaths = ['index.html', 'assets'];
 
-fs.rmSync(dist, { recursive: true, force: true });
-fs.mkdirSync(dist, { recursive: true });
+fs.rmSync(outDir, { recursive: true, force: true });
+fs.mkdirSync(outDir, { recursive: true });
 
 for (const p of copyPaths) {
   const src = path.join(root, p);
@@ -16,9 +16,9 @@ for (const p of copyPaths) {
     console.warn('Skipping missing:', p);
     continue;
   }
-  fs.cpSync(src, path.join(dist, p), { recursive: true });
+  fs.cpSync(src, path.join(outDir, p), { recursive: true });
   console.log('Copied:', p);
 }
 
-const count = fs.readdirSync(dist, { recursive: true }).length;
-console.log('Build complete ->', dist, '(' + count + ' entries)');
+const count = fs.readdirSync(outDir, { recursive: true }).length;
+console.log('Build complete -> ' + outDir + ' (' + count + ' entries)');
