@@ -1,0 +1,21 @@
+{
+  "name": "nova-opencode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovaPrime-01/nova.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/NovaPrime-01/nova/issues"
+  },
+  "homepage": "https://github.com/NovaPrime-01/nova#readme"
+}
