@@ -74,7 +74,6 @@ window.NOVA_DATA = {
       { label: "Focus", value: "Gaming · Technology · Design" },
       { label: "Creating content since", value: "2024" },
       { label: "Working since", value: "2025 – 2026" },
-      { label: "Status", value: "Open to collaborations" },
     ],
     timeline: [
       { year: "2024", text: "Started creating content and exploring digital projects." },
