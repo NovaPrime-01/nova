@@ -58,7 +58,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  cursor: none;
+  cursor: auto;
 }
 
 /* On touch devices, restore native cursor */
@@ -188,7 +188,7 @@ section { scroll-margin-top: 90px; }
 /* -----------------------------------------------------------------------------
    6. CUSTOM CURSOR
 ----------------------------------------------------------------------------- */
-.cursor { position: fixed; top: 0; left: 0; z-index: 300; pointer-events: none; mix-blend-mode: difference; }
+.cursor { display: none; position: fixed; top: 0; left: 0; z-index: 300; pointer-events: none; mix-blend-mode: difference; }
 .cursor__dot {
   position: fixed; top: 0; left: 0;
   width: 6px; height: 6px;

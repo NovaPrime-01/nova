@@ -481,8 +481,11 @@
      CUSTOM CURSOR
   --------------------------------------------------------------------------- */
   function initCursor() {
-    var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!fine || reduceMotion) return;
+    // Custom cursor disabled: native pointer is used for maximum device
+    // compatibility and zero input lag. Element is hidden via CSS.
+    return;
+    // var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    // if (!fine || reduceMotion) return;
     var cursor = $("cursor");
     var label = $("cursorLabel");
     var dot = cursor.querySelector(".cursor__dot");
