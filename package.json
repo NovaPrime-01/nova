@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/NovaPrime-01/nova/issues"
   },
-  "homepage": "https://github.com/NovaPrime-01/nova#readme"
+  "homepage": "https://github.com/NovaPrime-01/nova#readme",
+  "dependencies": {
+    "jimp": "^1.6.1"
+  }
 }

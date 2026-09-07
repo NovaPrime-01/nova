@@ -223,19 +223,18 @@ window.NOVA_DATA = {
     label: "05 — Gaming",
     heading: "NOVA eSports",
     tag: "NVE",
-    image: "assets/img/gaming-banner.png",
     statement:
       "A competitive identity built on discipline, teamwork and a love for the game — expressed through a clean, modern visual language.",
     pillars: [
-      { title: "Competitive", text: "Free Fire and eSports treated as a craft to be trained and respected." },
-      { title: "Identity", text: "A consistent NVE visual system across overlays, socials and merch concepts." },
-      { title: "Community", text: "Building a room that people want to be part of, not just watch." },
+      { title: "Competitive", image: "assets/img/gaming-1.png", text: "Free Fire and eSports treated as a craft to be trained and respected." },
+      { title: "Identity", image: "assets/img/gaming-2.png", text: "A consistent NVE visual system across overlays, socials and merch concepts." },
+      { title: "Community", image: "assets/img/gaming-3.png", text: "Building a room that people want to be part of, not just watch." },
     ],
     // Selected gaming work — placeholders
     items: [
-      { title: "[Tournament / Team Name]", meta: "[REPLACE: Result or role]", year: "[REPLACE: Year]" },
-      { title: "[Content Series]", meta: "[REPLACE: Platform / Reach]", year: "[REPLACE: Year]" },
-      { title: "[Brand Activation]", meta: "[REPLACE: Short note]", year: "[REPLACE: Year]" },
+      { title: "[Tournament / Team Name]", image: "assets/img/gaming-4.png", meta: "[REPLACE: Result or role]", year: "[REPLACE: Year]" },
+      { title: "[Content Series]", image: "assets/img/gaming-5.png", meta: "[REPLACE: Platform / Reach]", year: "[REPLACE: Year]" },
+      { title: "[Brand Activation]", image: "assets/img/gaming-6.png", meta: "[REPLACE: Short note]", year: "[REPLACE: Year]" },
     ],
   },
 
