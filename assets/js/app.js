@@ -249,6 +249,7 @@
         "<p class='gaming__statement' data-reveal>" + esc(g.statement) + "</p>" +
         "<div class='gaming__pillars'>" + pillars + "</div>" +
         "<div class='gaming__work'>" + rows + "</div>" +
+        (g.image ? "<div class='gaming__media' data-reveal><img src='" + esc(g.image) + "' alt='NOVA eSports' loading='lazy' decoding='async'></div>" : "") +
       "</div>";
   }
 

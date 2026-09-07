@@ -223,6 +223,7 @@ window.NOVA_DATA = {
     label: "05 — Gaming",
     heading: "NOVA eSports",
     tag: "NVE",
+    image: "assets/img/gaming-banner.png",
     statement:
       "A competitive identity built on discipline, teamwork and a love for the game — expressed through a clean, modern visual language.",
     pillars: [

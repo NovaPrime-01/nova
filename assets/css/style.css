@@ -650,9 +650,20 @@ section { scroll-margin-top: 90px; }
 .gaming__row:hover { padding-left: 1rem; }
 .gaming__row .t { font-size: 1.1rem; color: var(--fg); }
 .gaming__row .m, .gaming__row .y { font-family: var(--f-mono); font-size: 0.78rem; color: var(--fg-mute); }
+.gaming__media {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+  background: var(--bg-2); box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  position: relative;
+}
+.gaming__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255,77,46,0.12);
+}
+.gaming__media img { display: block; width: 100%; height: auto; }
 
 /* -----------------------------------------------------------------------------
-   15. CREATIVE PROJECTS (editorial gallery)
+    15. CREATIVE PROJECTS (editorial gallery)
 ----------------------------------------------------------------------------- */
 .creative__intro { color: var(--fg-dim); margin-top: 1rem; max-width: 46ch; }
 .creative__grid {
