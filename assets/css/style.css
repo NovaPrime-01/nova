@@ -362,6 +362,7 @@ section { scroll-margin-top: 90px; }
    9. HERO
 ----------------------------------------------------------------------------- */
 .hero {
+  min-height: 100vh;
   min-height: 100svh;
   display: flex; flex-direction: column; justify-content: center;
   position: relative; overflow: hidden;
