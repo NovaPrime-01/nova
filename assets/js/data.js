@@ -226,7 +226,7 @@ window.NOVA_DATA = {
     statement:
       "A competitive identity built on discipline, teamwork and a love for the game — expressed through a clean, modern visual language.",
     pillars: [
-      { title: "Competitive", image: "assets/img/gaming-1.png", text: "Free Fire and eSports treated as a craft to be trained and respected." },
+      { title: "Competitive", text: "Free Fire and eSports treated as a craft to be trained and respected." },
       { title: "Identity", text: "A consistent NVE visual system across overlays, socials and merch concepts." },
       { title: "Community", text: "Building a room that people want to be part of, not just watch." },
     ],
@@ -247,7 +247,7 @@ window.NOVA_DATA = {
     heading: "Creative Projects",
     intro: "Experiments, studies and concepts from the workshop.",
     items: [
-      { title: "[Visual Study]", category: "Visual Design", year: "[REPLACE: Year]", preview: "" },
+      { title: "[Visual Study]", category: "Visual Design", year: "[REPLACE: Year]", preview: "assets/img/creative-1.png" },
       { title: "[Brand Concept]", category: "Branding", year: "[REPLACE: Year]", preview: "" },
       { title: "[Website Concept]", category: "Web Concept", year: "[REPLACE: Year]", preview: "" },
       { title: "[AI Experiment]", category: "AI Experiments", year: "[REPLACE: Year]", preview: "" },
