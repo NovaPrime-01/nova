@@ -274,11 +274,9 @@ window.NOVA_DATA = {
      Replace `url` with your real links. Handles shown are editable too.
   --------------------------------------------------------------------------- */
   social: [
-    { platform: "Instagram", handle: "nvl.01n", url: "https://instagram.com/nvl.01n" },
-    { platform: "YouTube", handle: "Novaa.prime01", url: "https://youtube.com/@Novaa.prime01" },
-    { platform: "Discord", handle: "novaprime0", url: "https://discord.com" },
-    { platform: "X / Twitter", handle: "[REPLACE: handle]", url: "https://x.com" },
-    { platform: "TikTok", handle: "[REPLACE: handle]", url: "https://tiktok.com" },
+    { platform: "Instagram", handle: "real.ayuxhh", url: "https://instagram.com/real.ayuxhh" },
+    { platform: "YouTube", handle: "real.ayuxhh", url: "https://youtube.com/@real.ayuxhh" },
+    { platform: "Discord", handle: "real.ayuxhh", url: "https://discord.com" },
   ],
 
   /* ---------------------------------------------------------------------------
