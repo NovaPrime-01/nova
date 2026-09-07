@@ -275,8 +275,8 @@ window.NOVA_DATA = {
   --------------------------------------------------------------------------- */
   social: [
     { platform: "Instagram", handle: "real.ayuxhh", url: "https://instagram.com/real.ayuxhh" },
-    { platform: "YouTube", handle: "real.ayuxhh", url: "https://youtube.com/@real.ayuxhh" },
-    { platform: "Discord", handle: "real.ayuxhh", url: "https://discord.com" },
+    { platform: "YouTube", handle: "Novaa.prime01", url: "https://youtube.com/@Novaa.prime01" },
+    { platform: "Discord", handle: "novaprime0", url: "https://discord.com" },
   ],
 
   /* ---------------------------------------------------------------------------
