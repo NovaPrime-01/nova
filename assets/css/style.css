@@ -803,7 +803,7 @@ section { scroll-margin-top: 90px; }
   .work-card { grid-template-columns: 1fr; }
   .work-card:nth-child(even) .work-card__media { order: 0; }
   .gaming__head { grid-template-columns: 1fr; }
-  .gaming__mono { font-size: clamp(2.5rem, 16vw, 9rem); }
+  .gaming__mono { font-size: clamp(2rem, 13vw, 9rem); letter-spacing: -0.02em; }
 }
 
 @media (max-width: 760px) {
