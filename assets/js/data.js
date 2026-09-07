@@ -226,7 +226,7 @@ window.NOVA_DATA = {
     statement:
       "A competitive identity built on discipline, teamwork and a love for the game — expressed through a clean, modern visual language.",
     pillars: [
-      { title: "Competitive", text: "Free Fire and eSports treated as a craft to be trained and respected." },
+      { title: "Competitive", image: "assets/img/gaming-1.png", text: "Free Fire and eSports treated as a craft to be trained and respected." },
       { title: "Identity", text: "A consistent NVE visual system across overlays, socials and merch concepts." },
       { title: "Community", text: "Building a room that people want to be part of, not just watch." },
     ],

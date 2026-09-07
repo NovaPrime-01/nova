@@ -226,10 +226,13 @@
   function renderGaming() {
     var g = D.gaming;
     var pillars = g.pillars.map(function (p) {
-      return "<div class='gaming__pillar' data-reveal><h4>" + esc(p.title) + "</h4><p>" + esc(p.text) + "</p></div>";
+      return "<div class='gaming__pillar' data-reveal>" +
+        (p.image ? "<img class='gaming__pillar-img' src='" + esc(p.image) + "' alt='" + esc(p.title) + "' loading='lazy' decoding='async'>" : "") +
+        "<h4>" + esc(p.title) + "</h4><p>" + esc(p.text) + "</p></div>";
     }).join("");
     var rows = g.items.map(function (it) {
       return "<div class='gaming__row' data-reveal data-cursor='OPEN'>" +
+        (it.image ? "<img class='gaming__thumb' src='" + esc(it.image) + "' alt='" + esc(it.title) + "' loading='lazy' decoding='async'>" : "") +
         "<span class='t'>" + esc(it.title) + "</span>" +
         "<span class='m'>" + esc(it.meta) + "</span>" +
         "<span class='y'>" + esc(it.year) + "</span>" +
