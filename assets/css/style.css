@@ -133,6 +133,15 @@ ul { list-style: none; }
   letter-spacing: -0.02em;
 }
 
+/* Heading overflow safeguard: never let large display type escape its container on any device */
+.hero__title, .about__heading, .work-card__title, .do__title,
+.gaming__mono, .philosophy__statement, .contact__heading,
+.footer__brand, .social__plat, .display, h1, h2, h3 {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 .section { padding-block: var(--section-y); position: relative; scroll-margin-top: 90px; }
 .section--alt { background: var(--bg-2); }
 .section__head { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
@@ -405,9 +414,10 @@ section { scroll-margin-top: 90px; }
 }
 .hero__title {
   font-family: var(--f-display); font-weight: 800;
-  font-size: clamp(4.5rem, 23vw, 19rem);
-  line-height: 0.82; letter-spacing: -0.04em;
+  font-size: clamp(3rem, 16vw, 14rem);
+  line-height: 0.88; letter-spacing: -0.03em;
   text-align: center;
+  max-width: 100%; overflow-wrap: break-word;
   will-change: transform;
 }
 .hero__title .char { display: inline-block; will-change: transform; }
@@ -619,7 +629,7 @@ section { scroll-margin-top: 90px; }
 .gaming__head { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start; }
 .gaming__mono {
   font-family: var(--f-display); font-weight: 800;
-  font-size: clamp(3rem, 13vw, 9rem); line-height: 0.82; letter-spacing: -0.03em;
+  font-size: clamp(2.5rem, 11vw, 8rem); line-height: 0.86; letter-spacing: -0.03em;
   color: transparent; -webkit-text-stroke: 1px var(--line-2);
   position: relative; word-break: break-word;
 }
@@ -675,7 +685,7 @@ section { scroll-margin-top: 90px; }
 .philosophy { text-align: left; }
 .philosophy__statement {
   font-family: var(--f-display); font-weight: 800;
-  font-size: clamp(2.6rem, 9vw, 8rem); line-height: 0.92; letter-spacing: -0.03em;
+  font-size: clamp(2.2rem, 8vw, 7rem); line-height: 0.94; letter-spacing: -0.03em;
 }
 .philosophy__statement span { display: block; }
 .philosophy__statement .word { display: inline-block; overflow: hidden; }
@@ -708,7 +718,7 @@ section { scroll-margin-top: 90px; }
 .contact { background: var(--bg-2); }
 .contact__heading {
   font-family: var(--f-display); font-weight: 800;
-  font-size: clamp(2.6rem, 10vw, 9rem); line-height: 0.92; letter-spacing: -0.03em;
+  font-size: clamp(2.2rem, 9vw, 8rem); line-height: 0.94; letter-spacing: -0.03em;
 }
 .contact__note { color: var(--fg-dim); margin-top: 1.5rem; max-width: 44ch; }
 .contact__actions { margin-top: clamp(2rem, 4vw, 3rem); display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; }
@@ -793,7 +803,7 @@ section { scroll-margin-top: 90px; }
   .work-card { grid-template-columns: 1fr; }
   .work-card:nth-child(even) .work-card__media { order: 0; }
   .gaming__head { grid-template-columns: 1fr; }
-  .gaming__mono { font-size: clamp(4rem, 22vw, 9rem); }
+  .gaming__mono { font-size: clamp(2.5rem, 16vw, 9rem); }
 }
 
 @media (max-width: 760px) {
@@ -807,7 +817,7 @@ section { scroll-margin-top: 90px; }
   .do__detail p { margin-top: 0.8rem; }
   .skills__cat:hover .skills__tag { transform: none; }
 
-  .hero__title { font-size: clamp(4rem, 27vw, 9rem); }
+  .hero__title { font-size: clamp(3rem, 19vw, 9rem); }
   .hero__bottom { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
 
   .about__facts { grid-template-columns: 1fr; }
