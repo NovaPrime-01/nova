@@ -267,7 +267,7 @@
         "<div class='cg__body'>" +
           "<span class='cg__cat'>" + esc(it.category) + "</span>" +
           "<h3 class='cg__title'>" + esc(it.title) + "</h3>" +
-          "<span class='cg__year'>" + esc(it.year) + "</span>" +
+          (it.year && it.year.trim() !== "" ? "<span class='cg__year'>" + esc(it.year) + "</span>" : "") +
         "</div>" +
       "</article>";
     }).join("");

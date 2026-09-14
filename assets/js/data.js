@@ -248,7 +248,7 @@ window.NOVA_DATA = {
     intro: "Experiments, studies and concepts from the workshop.",
     items: [
       { title: "[Visual Study]", category: "Visual Design", year: "[REPLACE: Year]", preview: "assets/img/creative-1.png" },
-      { title: "[Brand Concept]", category: "Branding", year: "[REPLACE: Year]", preview: "" },
+      { title: "[Brand Concept]", category: "Branding", year: "", preview: "assets/img/creative-2.png" },
       { title: "[Website Concept]", category: "Web Concept", year: "[REPLACE: Year]", preview: "" },
       { title: "[AI Experiment]", category: "AI Experiments", year: "[REPLACE: Year]", preview: "" },
       { title: "[Social Series]", category: "Social Media", year: "[REPLACE: Year]", preview: "" },
