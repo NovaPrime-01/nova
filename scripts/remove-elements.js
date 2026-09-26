@@ -27,6 +27,16 @@ const JOBS = [
       { x0: 85, x1: 430, y0: 1155, y1: 1215, minInk: 800, test: (r, g, b) => (r + g + b) / 3 > 20 },
     ],
   },
+  {
+    src: 'assets/img/creative-3.png',
+    backup: 'backups/creative-3-with-arrow.png',
+    regions: [
+      // cyan arrow above the year placeholder
+      { x0: 60, x1: 200, y0: 600, y1: 730, minInk: 300, test: (r, g, b) => (r + g + b) / 3 > 40 },
+      // baked "{ REPLACE: Year }" at bottom-left
+      { x0: 80, x1: 370, y0: 722, y1: 762, minInk: 500, test: (r, g, b) => (r + g + b) / 3 > 40 },
+    ],
+  },
 ];
 
 const dilate = (m, W, H, r) => {

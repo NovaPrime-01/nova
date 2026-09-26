@@ -249,7 +249,7 @@ window.NOVA_DATA = {
     items: [
       { title: "[Visual Study]", category: "Visual Design", year: "", preview: "assets/img/creative-1.png", ratio: "1672/940" },
       { title: "[Brand Concept]", category: "Branding", year: "", preview: "assets/img/creative-2.png", ratio: "1672/1330" },
-      { title: "[Website Concept]", category: "Web Concept", year: "[REPLACE: Year]", preview: "" },
+      { title: "[Website Concept]", category: "Web Concept", year: "", preview: "assets/img/creative-3.png", ratio: "1568/882" },
       { title: "[AI Experiment]", category: "AI Experiments", year: "[REPLACE: Year]", preview: "" },
       { title: "[Social Series]", category: "Social Media", year: "[REPLACE: Year]", preview: "" },
       { title: "[Motion Test]", category: "Motion", year: "[REPLACE: Year]", preview: "" },
