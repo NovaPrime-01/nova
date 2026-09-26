@@ -1,13 +1,31 @@
-// Removes the cyan arrow graphic and the baked "{ REPLACE: Year }" placeholder
-// from creative-1.png, reconstructing the dark background by float-precision
-// diffusion from the surrounding pixels. Everything else is untouched.
-// Idempotent: always restores from backup before processing.
+// Removes decorative arrow graphics (and the baked year placeholder) from the
+// creative card images, reconstructing the dark background by float-precision
+// diffusion from surrounding pixels. Everything else is untouched.
+// Idempotent: each job restores from its backup before processing.
 const path = require('path');
 const fs = require('fs');
 const { Jimp } = require('jimp');
 
-const SRC = path.join(process.cwd(), 'assets/img/creative-1.png');
-const BACKUP = path.join(process.cwd(), 'backups', 'creative-1-original.png');
+const JOBS = [
+  {
+    src: 'assets/img/creative-1.png',
+    backup: 'backups/creative-1-original.png',
+    regions: [
+      // cyan arrow between VISUAL DESIGN and title
+      { x0: 90, x1: 210, y0: 670, y1: 750, minInk: 300, test: (r, g, b) => (b > 120 && b - r > 60 && g > 90) || (r + g + b) / 3 > 24 },
+      // baked "{ REPLACE: Year }" under the title
+      { x0: 92, x1: 372, y0: 778, y1: 830, minInk: 800, test: (r, g, b) => (r + g + b) / 3 > 22 },
+    ],
+  },
+  {
+    src: 'assets/img/creative-2.png',
+    backup: 'backups/creative-2-with-arrow.png',
+    regions: [
+      // purple arrow left of BRANDING
+      { x0: 85, x1: 165, y0: 1048, y1: 1128, minInk: 300, test: (r, g, b) => (r + g + b) / 3 > 50 },
+    ],
+  },
+];
 
 const dilate = (m, W, H, r) => {
   const out = new Uint8Array(m);
@@ -22,92 +40,80 @@ const dilate = (m, W, H, r) => {
 };
 
 (async () => {
-  if (fs.existsSync(BACKUP)) fs.copyFileSync(BACKUP, SRC);
-  else fs.copyFileSync(SRC, BACKUP);
+  for (const job of JOBS) {
+    const SRC = path.join(process.cwd(), job.src);
+    const BACKUP = path.join(process.cwd(), job.backup);
+    if (fs.existsSync(BACKUP)) fs.copyFileSync(BACKUP, SRC);
+    else fs.copyFileSync(SRC, BACKUP);
 
-  const img = await Jimp.read(SRC);
-  const W = img.bitmap.width, H = img.bitmap.height, d = img.bitmap.data;
+    const img = await Jimp.read(SRC);
+    const W = img.bitmap.width, H = img.bitmap.height, d = img.bitmap.data;
 
-  const mask = new Uint8Array(W * H);
-  let aN = 0, tN = 0;
-  for (let y = 670; y <= 750; y++) for (let x = 90; x <= 210; x++) {
-    const i = (y * W + x) * 4, r = d[i], g = d[i + 1], b = d[i + 2];
-    if ((b > 120 && b - r > 60 && g > 90) || (r + g + b) / 3 > 24) { mask[y * W + x] = 1; aN++; }
-  }
-  for (let y = 778; y <= 830; y++) for (let x = 92; x <= 372; x++) {
-    const i = (y * W + x) * 4;
-    if ((d[i] + d[i + 1] + d[i + 2]) / 3 > 22) { mask[y * W + x] = 1; tN++; }
-  }
-  console.log('arrow mask px:', aN, '| text mask px:', tN);
-  if (aN < 300 || tN < 800) { console.error('detection failed'); process.exit(1); }
-
-  const m = dilate(mask, W, H, 4);
-  let mn = 0; for (let i = 0; i < m.length; i++) if (m[i]) mn++;
-  console.log('dilated mask px:', mn);
-
-  // float channels (avoids integer-quantization stall)
-  const fr = new Float64Array(W * H), fg = new Float64Array(W * H), fb = new Float64Array(W * H);
-  for (let k = 0; k < W * H; k++) {
-    fr[k] = d[k * 4]; fg[k] = d[k * 4 + 1]; fb[k] = d[k * 4 + 2];
-  }
-
-  let prevMean = -1;
-  for (let iter = 1; iter <= 1500; iter++) {
-    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-      const k = y * W + x;
-      if (!m[k]) continue;
-      let sr = 0, sg = 0, sb = 0, c = 0;
-      if (x > 0) { sr += fr[k - 1]; sg += fg[k - 1]; sb += fb[k - 1]; c++; }
-      if (x < W - 1) { sr += fr[k + 1]; sg += fg[k + 1]; sb += fb[k + 1]; c++; }
-      if (y > 0) { sr += fr[k - W]; sg += fg[k - W]; sb += fb[k - W]; c++; }
-      if (y < H - 1) { sr += fr[k + W]; sg += fg[k + W]; sb += fb[k + W]; c++; }
-      fr[k] = sr / c; fg[k] = sg / c; fb[k] = sb / c;
-    }
-    if (iter % 100 === 0) {
-      let s = 0, n = 0;
-      for (let y = 778; y <= 830; y++) for (let x = 92; x <= 372; x++) {
-        const k = y * W + x; if (m[k]) { s += (fr[k] + fg[k] + fb[k]) / 3; n++; }
+    const mask = new Uint8Array(W * H);
+    let total = 0;
+    for (const reg of job.regions) {
+      let n = 0;
+      for (let y = reg.y0; y <= reg.y1; y++) for (let x = reg.x0; x <= reg.x1; x++) {
+        const i = (y * W + x) * 4;
+        if (reg.test(d[i], d[i + 1], d[i + 2])) { mask[y * W + x] = 1; n++; }
       }
-      const mean = s / n;
-      if (iter % 300 === 0 || Math.abs(mean - prevMean) < 0.05) console.log('iter', iter, 'fill mean:', mean.toFixed(2));
-      if (Math.abs(mean - prevMean) < 0.05 && mean < 15) { console.log('converged at', iter); break; }
-      prevMean = mean;
+      console.log(job.src, 'region', reg.x0 + '-' + reg.x1, reg.y0 + '-' + reg.y1, 'ink px:', n);
+      if (n < reg.minInk) { console.error('detection failed'); process.exit(1); }
+      total += n;
     }
-  }
 
-  // write back masked px only
-  for (let k = 0; k < W * H; k++) {
-    if (!m[k]) continue;
-    d[k * 4] = Math.max(0, Math.min(255, Math.round(fr[k])));
-    d[k * 4 + 1] = Math.max(0, Math.min(255, Math.round(fg[k])));
-    d[k * 4 + 2] = Math.max(0, Math.min(255, Math.round(fb[k])));
-  }
+    const m = dilate(mask, W, H, 4);
+    const fr = new Float64Array(W * H), fg = new Float64Array(W * H), fb = new Float64Array(W * H);
+    for (let k = 0; k < W * H; k++) { fr[k] = d[k * 4]; fg[k] = d[k * 4 + 1]; fb[k] = d[k * 4 + 2]; }
 
-  // verify: fill vs surrounding, boundary continuity, no leftovers
-  let fill = 0, fn = 0, ring = 0, rn = 0, bMax = 0;
-  for (let y = 770; y <= 838; y++) for (let x = 84; x <= 380; x++) {
-    const k = y * W + x, i = k * 4;
-    const lum = (d[i] + d[i + 1] + d[i + 2]) / 3;
-    if (m[k]) { fill += lum; fn++; } else { ring += lum; rn++; }
-    if (m[k] && (x > 0 && x < W - 1 && y > 0 && y < H - 1) && (!m[k - 1] || !m[k + 1] || !m[k - W] || !m[k + W])) {
-      for (const j of [k - 1, k + 1, k - W, k + W]) {
-        if (!m[j]) {
-          const diff = Math.max(Math.abs(d[i] - d[j * 4]), Math.abs(d[i + 1] - d[j * 4 + 1]), Math.abs(d[i + 2] - d[j * 4 + 2]));
-          if (diff > bMax) bMax = diff;
+    let prevMean = -1;
+    for (let iter = 1; iter <= 1500; iter++) {
+      for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+        const k = y * W + x;
+        if (!m[k]) continue;
+        let sr = 0, sg = 0, sb = 0, c = 0;
+        if (x > 0) { sr += fr[k - 1]; sg += fg[k - 1]; sb += fb[k - 1]; c++; }
+        if (x < W - 1) { sr += fr[k + 1]; sg += fg[k + 1]; sb += fb[k + 1]; c++; }
+        if (y > 0) { sr += fr[k - W]; sg += fg[k - W]; sb += fb[k - W]; c++; }
+        if (y < H - 1) { sr += fr[k + W]; sg += fg[k + W]; sb += fb[k + W]; c++; }
+        fr[k] = sr / c; fg[k] = sg / c; fb[k] = sb / c;
+      }
+      if (iter % 100 === 0) {
+        let s = 0, n = 0;
+        for (const reg of job.regions) for (let y = reg.y0; y <= reg.y1; y++) for (let x = reg.x0; x <= reg.x1; x++) {
+          const k = y * W + x; if (m[k]) { s += (fr[k] + fg[k] + fb[k]) / 3; n++; }
         }
+        const mean = s / n;
+        if (iter % 300 === 0 || Math.abs(mean - prevMean) < 0.05) console.log('iter', iter, 'fill mean:', mean.toFixed(2));
+        if (Math.abs(mean - prevMean) < 0.05 && mean < 15) { console.log('converged at', iter); break; }
+        prevMean = mean;
       }
     }
-  }
-  console.log('text fill mean:', (fill / fn).toFixed(1), '| ring mean:', (ring / rn).toFixed(1), '| boundary max diff:', bMax);
 
-  await img.write(SRC);
-  const chk = await Jimp.read(SRC); const c = chk.bitmap.data;
-  let bad1 = 0, bad2 = 0;
-  for (let y = 670; y <= 750; y++) for (let x = 90; x <= 210; x++) {
-    const i = (y * W + x) * 4; if ((c[i] + c[i + 1] + c[i + 2]) / 3 > 70) bad1++;
+    for (let k = 0; k < W * H; k++) {
+      if (!m[k]) continue;
+      d[k * 4] = Math.max(0, Math.min(255, Math.round(fr[k])));
+      d[k * 4 + 1] = Math.max(0, Math.min(255, Math.round(fg[k])));
+      d[k * 4 + 2] = Math.max(0, Math.min(255, Math.round(fb[k])));
+    }
+
+    await img.write(SRC);
+
+    // verify: no leftovers above the dark-wall level in each region
+    const chk = await Jimp.read(SRC); const c = chk.bitmap.data;
+    let bad = 0, fill = 0, fn = 0, ring = 0, rn = 0;
+    for (const reg of job.regions) {
+      for (let y = reg.y0; y <= reg.y1; y++) for (let x = reg.x0; x <= reg.x1; x++) {
+        const i = (y * W + x) * 4, lum = (c[i] + c[i + 1] + c[i + 2]) / 3;
+        if (lum > 70) bad++;
+      }
+      for (let y = reg.y0 - 20; y <= reg.y1 + 20; y++) for (let x = reg.x0 - 20; x <= reg.x1 + 20; x++) {
+        if (y < 0 || y >= H || x < 0 || x >= W) continue;
+        const k = y * W + x, i = k * 4;
+        const lum = (c[i] + c[i + 1] + c[i + 2]) / 3;
+        if (m[k]) { fill += lum; fn++; } else { ring += lum; rn++; }
+      }
+    }
+    console.log(job.src, 'DONE — remaining lum>70:', bad, '| fill mean:', (fill / fn).toFixed(1), '| ring mean:', (ring / rn).toFixed(1), '| dims:', chk.bitmap.width + 'x' + chk.bitmap.height);
   }
-  for (let y = 778; y <= 830; y++) for (let x = 92; x <= 372; x++) {
-    const i = (y * W + x) * 4; if ((c[i] + c[i + 1] + c[i + 2]) / 3 > 70) bad2++;
-  }
-  console.log('remaining lum>70 — arrow window:', bad1, '| text window:', bad2, '| dims:', chk.bitmap.width + 'x' + chk.bitmap.height);
 })().catch((e) => { console.error(e); process.exit(1); });
