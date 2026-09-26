@@ -262,7 +262,9 @@
     var c = D.creative;
     var cls = ["cg--a", "cg--b", "cg--c", "cg--d", "cg--e", "cg--f"];
     var items = c.items.map(function (it, i) {
-      return "<article class='cg " + cls[i % cls.length] + "' data-reveal data-cursor='VIEW'>" +
+      var photo = it.preview && it.preview.trim() !== "" ? " cg--photo" : "";
+      var ar = photo && it.ratio ? " style='aspect-ratio:" + esc(it.ratio) + "'" : "";
+      return "<article class='cg " + cls[i % cls.length] + photo + "'" + ar + " data-reveal data-cursor='VIEW'>" +
         preview(it, i + 20) +
         "<div class='cg__body'>" +
           "<span class='cg__cat'>" + esc(it.category) + "</span>" +
