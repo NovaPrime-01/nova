@@ -37,6 +37,36 @@ const JOBS = [
       { x0: 80, x1: 370, y0: 722, y1: 762, minInk: 500, test: (r, g, b) => (r + g + b) / 3 > 40 },
     ],
   },
+  {
+    src: 'assets/img/creative-4.png',
+    backup: 'backups/creative-4-with-arrow.png',
+    regions: [
+      // purple arrow above the year placeholder
+      { x0: 60, x1: 200, y0: 562, y1: 755, minInk: 300, test: (r, g, b) => (r + g + b) / 3 > 40 },
+      // baked "{ REPLACE: Year }" at bottom-left
+      { x0: 60, x1: 390, y0: 772, y1: 818, minInk: 500, test: (r, g, b) => (r + g + b) / 3 > 40 },
+    ],
+  },
+  {
+    src: 'assets/img/creative-5.png',
+    backup: 'backups/creative-5-with-arrow.png',
+    regions: [
+      // coral arrow above the year placeholder
+      { x0: 60, x1: 200, y0: 555, y1: 735, minInk: 300, test: (r, g, b) => (r + g + b) / 3 > 40 },
+      // baked "{ REPLACE: Year }" at bottom-left
+      { x0: 60, x1: 385, y0: 755, y1: 798, minInk: 500, test: (r, g, b) => (r + g + b) / 3 > 40 },
+    ],
+  },
+  {
+    src: 'assets/img/creative-6.png',
+    backup: 'backups/creative-6-with-arrow.png',
+    regions: [
+      // cyan arrow above the year placeholder
+      { x0: 60, x1: 200, y0: 560, y1: 710, minInk: 300, test: (r, g, b) => (r + g + b) / 3 > 40 },
+      // baked "{ REPLACE: Year }" at bottom-left
+      { x0: 60, x1: 400, y0: 715, y1: 775, minInk: 500, test: (r, g, b) => (r + g + b) / 3 > 40 },
+    ],
+  },
 ];
 
 const dilate = (m, W, H, r) => {
