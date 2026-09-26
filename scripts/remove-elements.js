@@ -23,6 +23,8 @@ const JOBS = [
     regions: [
       // purple arrow left of BRANDING
       { x0: 85, x1: 165, y0: 1048, y1: 1128, minInk: 300, test: (r, g, b) => (r + g + b) / 3 > 50 },
+      // baked "[REPLACE: Year]" under the title
+      { x0: 85, x1: 430, y0: 1155, y1: 1215, minInk: 800, test: (r, g, b) => (r + g + b) / 3 > 20 },
     ],
   },
 ];
