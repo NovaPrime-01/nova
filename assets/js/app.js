@@ -192,7 +192,7 @@
     var w = D.work;
     var cards = w.items.map(function (p, i) {
       var tools = p.tools.map(function (t) { return "<span class='work-card__tool'>" + esc(t) + "</span>"; }).join("");
-      return "<article class='work-card' data-reveal data-cursor='VIEW' data-parallax-media>" +
+      return "<article class='work-card' data-url='" + esc(p.url) + "' data-reveal data-cursor='VIEW' data-parallax-media>" +
         "<div class='work-card__media'>" +
           preview(p, i) +
           "<span class='idx'>" + esc(p.num) + "</span>" +
@@ -218,6 +218,14 @@
         "</div>" +
         "<div class='work__list'>" + cards + "</div>" +
       "</div>";
+    // whole work card is clickable (View project link handles itself)
+    $("work").addEventListener("click", function (e) {
+      if (e.target.closest("a")) return;
+      var card = e.target.closest(".work-card");
+      if (!card) return;
+      var url = card.getAttribute("data-url");
+      if (url && url !== "#") window.open(url, "_blank", "noopener");
+    });
   }
 
   /* ---------------------------------------------------------------------------
