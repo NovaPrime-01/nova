@@ -32,7 +32,7 @@ window.NOVA_DATA = {
     title: "NOVA — Digital Creator & Creative Portfolio",
     description:
       "NOVA is a digital creator working at the intersection of gaming, technology and creative projects. Selected work, identity and experiments.",
-    url: "https://nova.example.com",
+    url: "https://novva.vercel.app",
     // Open Graph image — replace with a real hosted image when available
     ogImage: "",
   },
@@ -54,7 +54,7 @@ window.NOVA_DATA = {
     headline: "NOVA",
     sub: "Digital Creator • Gaming • Technology • Creative Projects",
     statement:
-      "Building digital experiences, creative projects and a personal identity at the intersection of gaming, technology and culture.",
+      "Building digital experiences, creative projects and a personal identity at the intersection of gaming, technology and culture. Imagine Beyond. Create Without Limits.",
     status: "Available for collaborations",
     scrollLabel: "Scroll",
   },
@@ -177,6 +177,7 @@ window.NOVA_DATA = {
         desc:
           "A Gemini-powered AI app built from the Google AI Studio starter — Node.js and the Gemini API, set up to run locally with a simple install and dev workflow.",
         tools: ["Gemini API", "Node.js", "AI"],
+        status: "Functional",
         preview: "assets/img/work-1.png",
         url: "https://novva.vercel.app/",
       },
@@ -238,12 +239,14 @@ window.NOVA_DATA = {
 
   /* ---------------------------------------------------------------------------
      10. SOCIAL PRESENCE
-     Replace `url` with your real links. Handles shown are editable too.
+     `desc` = proposed content direction for each channel (not a claim of
+     existing posts). `url: ""` = no verified destination yet -> the handle is
+     shown as plain text, never as a link that was not checked.
   --------------------------------------------------------------------------- */
   social: [
-    { platform: "Instagram", handle: "real.ayuxhh", url: "https://instagram.com/real.ayuxhh" },
-    { platform: "YouTube", handle: "Novaa.prime01", url: "https://youtube.com/@Novaa.prime01" },
-    { platform: "Discord", handle: "novaprime0", url: "https://discord.com" },
+    { platform: "Instagram", handle: "nvl.01n", url: "https://instagram.com/nvl.01n", desc: "Visual projects, creative work, design experiments and updates." },
+    { platform: "YouTube", handle: "Novaa.prime01", url: "https://youtube.com/@Novaa.prime01", desc: "Project demonstrations, tutorials, process and longer-form creative content." },
+    { platform: "Discord", handle: "novaprime0", url: "", desc: "Community discussions, collaboration and technology interests." },
   ],
 
   /* ---------------------------------------------------------------------------
