@@ -180,39 +180,6 @@ window.NOVA_DATA = {
         preview: "assets/img/work-1.png",
         url: "https://novva.vercel.app/",
       },
-      {
-        num: "02",
-        title: "[Project Name]",
-        category: "Web / Technology",
-        year: "[REPLACE: Year]",
-        desc:
-          "[REPLACE: Describe the website, tool or experiment and what you learned building it.]",
-        tools: ["HTML", "CSS", "JavaScript"],
-        preview: "",
-        url: "#",
-      },
-      {
-        num: "03",
-        title: "[Project Name]",
-        category: "Content",
-        year: "[REPLACE: Year]",
-        desc:
-          "[REPLACE: Describe the content series, campaign or channel you built and its focus.]",
-        tools: ["Video", "Editing", "Social"],
-        preview: "",
-        url: "#",
-      },
-      {
-        num: "04",
-        title: "[Project Name]",
-        category: "Gaming / eSports",
-        year: "[REPLACE: Year]",
-        desc:
-          "[REPLACE: Describe the tournament, team or eSports project and your contribution.]",
-        tools: ["Free Fire", "eSports", "Team"],
-        preview: "",
-        url: "#",
-      },
     ],
   },
 
