@@ -5,7 +5,7 @@ const path = require('path');
 const root = process.cwd();
 const outDir = path.join(root, 'public');
 
-const copyPaths = ['index.html', 'visual-study.html', 'assets'];
+const copyPaths = ['index.html', 'visual-study.html', 'brand.html', 'assets'];
 
 fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
