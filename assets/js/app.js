@@ -204,7 +204,6 @@
     var w = D.work;
     var cards = w.items.map(function (p, i) {
       var tools = p.tools.map(function (t) { return "<span class='work-card__tool'>" + esc(t) + "</span>"; }).join("");
-      var status = p.status ? "<span class='work-card__status' data-status='" + esc(p.status.toLowerCase()) + "'>" + esc(p.status) + "</span>" : "";
       return "<article class='work-card' data-url='" + esc(p.url) + "' data-reveal data-cursor='VIEW' data-parallax-media>" +
         "<div class='work-card__media'>" +
           preview(p, i) +
@@ -212,9 +211,7 @@
           "<span class='work-card__cat'>" + esc(p.category) + "</span>" +
         "</div>" +
         "<div class='work-card__body'>" +
-          "<div class='work-card__title-row'>" +
-            "<h3 class='work-card__title'>" + esc(p.title) + "</h3>" + status +
-          "</div>" +
+          "<h3 class='work-card__title'>" + esc(p.title) + "</h3>" +
           "<p class='work-card__desc'>" + esc(p.desc) + "</p>" +
           "<div class='work-card__meta'>" + tools + "</div>" +
           "<div class='work-card__foot'>" +
@@ -232,112 +229,14 @@
           "<p class='work__intro'>" + esc(w.intro) + "</p>" +
         "</div>" +
         "<div class='work__list'>" + cards + "</div>" +
-        labBlock() +
       "</div>";
-    initLab();
     // whole work card is clickable (View project link handles itself)
     $("work").addEventListener("click", function (e) {
-      if (e.target.closest("a, button, textarea, select, input")) return;
+      if (e.target.closest("a")) return;
       var card = e.target.closest(".work-card");
       if (!card) return;
       var url = card.getAttribute("data-url");
       if (url && url !== "#") window.open(url, "_blank", "noopener");
-    });
-  }
-
-  /* ---------------------------------------------------------------------------
-     AI EXPERIMENT — CREATIVE PROMPT LAB (local, no model called)
-     Honest demonstration: a local template engine that structures a rough
-     idea into a usable prompt. No API, no network requests, no storage.
-  --------------------------------------------------------------------------- */
-  function labBlock() {
-    var tasks = ["Design", "Writing", "Video", "Code", "Image concept"];
-    var opts = tasks.map(function (t) { return "<option value='" + esc(t) + "'>" + esc(t) + "</option>"; }).join("");
-    return "<div class='ai-lab' data-reveal>" +
-      "<div class='ai-lab__head'>" +
-        "<span class='eyebrow'>AI Experiment — Creative Prompt Lab</span>" +
-        "<span class='lab-status' data-status='demonstration'>Demonstration · Local tool</span>" +
-      "</div>" +
-      "<p class='ai-lab__desc'>Develop and refine creative prompts for design, writing, video, code and image workflows. " +
-        "This is a <strong>local prompt-structuring tool — no AI model is called and no data leaves your browser.</strong> " +
-        "It organises your idea into role, context, constraints and output format so you can paste the result into any AI workflow you already use.</p>" +
-      "<div class='ai-lab__controls'>" +
-        "<div class='ai-lab__field'>" +
-          "<label class='label-mono' for='labTask'>Task category</label>" +
-          "<select id='labTask' class='ai-lab__select'>" + opts + "</select>" +
-        "</div>" +
-        "<div class='ai-lab__field ai-lab__field--grow'>" +
-          "<label class='label-mono' for='labInput'>Your idea (required)</label>" +
-          "<textarea id='labInput' class='ai-lab__input' rows='3' placeholder='e.g. a neon-lit poster for a gaming tournament' aria-describedby='labMsg'></textarea>" +
-        "</div>" +
-      "</div>" +
-      "<div class='ai-lab__actions'>" +
-        "<button type='button' class='ai-lab__btn' id='labBuild'>Build prompt</button>" +
-        "<span class='ai-lab__msg' id='labMsg' role='status' aria-live='polite'></span>" +
-      "</div>" +
-      "<div class='ai-lab__out'>" +
-        "<div class='ai-lab__out-head'>" +
-          "<span class='label-mono'>Output</span>" +
-          "<button type='button' class='ai-lab__copy' id='labCopy' disabled>Copy</button>" +
-        "</div>" +
-        "<pre id='labOut' tabindex='0'><span class='ai-lab__empty'>Your structured prompt will appear here.</span></pre>" +
-      "</div>" +
-      "<p class='ai-lab__note'><span class='label-mono'>Status: Demonstration</span> — known limitation: this tool structures text locally and does not generate content. " +
-        "Your input is never transmitted; nothing is stored.</p>" +
-    "</div>";
-  }
-
-  function initLab() {
-    var task = $("labTask"), input = $("labInput"), build = $("labBuild"),
-        msg = $("labMsg"), out = $("labOut"), copy = $("labCopy");
-    if (!task || !input || !build || !out) return;
-
-    var templates = {
-      "Design": "Act as a senior art director. Context: a personal creative-technology brand with a premium, futuristic identity. Brief: {idea}. Constraints: dark palette with restrained electric-blue lighting, clear visual hierarchy, no decorative clutter. Output: 3 concept directions, each with palette, typography and layout notes.",
-      "Writing": "Act as a clear, professional copywriter. Context: a modern technology and creative portfolio. Brief: {idea}. Constraints: plain confident English, no filler or exaggerated claims, short paragraphs. Output: a headline, a 2-sentence summary and a body draft.",
-      "Video": "Act as a video editor and storyteller. Context: short-form gaming and technology content. Brief: {idea}. Constraints: hook in the first 3 seconds, clean pacing, one clear idea per cut. Output: a shot list with a hook, beats and a closing call to action.",
-      "Code": "Act as a patient senior developer. Context: an educational code explanation for a beginner. Brief: {idea}. Constraints: step-by-step reasoning, correct terminology, no unexplained jargon. Output: a plain-language explanation, a minimal example and common mistakes to avoid.",
-      "Image concept": "Act as an image prompt engineer. Context: premium futuristic concept art on a dark navy and black ground with electric-blue highlights. Brief: {idea}. Constraints: bold composition, cinematic lighting, no text in the image. Output: one detailed image prompt followed by 3 style variations."
-    };
-
-    function setMsg(text, kind) {
-      msg.textContent = text;
-      msg.className = "ai-lab__msg" + (kind ? " is-" + kind : "");
-    }
-
-    build.addEventListener("click", function () {
-      var idea = input.value.trim();
-      if (!idea) {
-        setMsg("Add your idea first.", "error");
-        out.innerHTML = "<span class='ai-lab__empty'>Your structured prompt will appear here.</span>";
-        copy.disabled = true;
-        input.focus();
-        return;
-      }
-      var tpl = templates[task.value] || templates.Design;
-      out.textContent = tpl.replace("{idea}", idea);
-      copy.disabled = false;
-      setMsg("Built locally — no AI model called.", "ok");
-    });
-
-    copy.addEventListener("click", function () {
-      var text = out.textContent || "";
-      if (!text) return;
-      function done() {
-        copy.textContent = "Copied";
-        copy.classList.add("is-copied");
-        setTimeout(function () {
-          copy.textContent = "Copy";
-          copy.classList.remove("is-copied");
-        }, 1600);
-      }
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done).catch(function () {
-          setMsg("Copy failed — select the text manually.", "error");
-        });
-      } else {
-        setMsg("Copy unavailable — select the text manually.", "error");
-      }
     });
   }
 
@@ -438,21 +337,16 @@
   function renderSocial() {
     var rows = D.social.map(function (s) {
       var hasUrl = s.url && s.url.trim() !== "";
-      var meta =
-        "<span class='social__meta'>" +
-          "<span class='social__plat'>" + esc(s.platform) + "</span>" +
-          "<span class='social__desc'>" + esc(s.desc || "") + "</span>" +
-        "</span>";
       if (hasUrl) {
         return "<a class='social__row' href='" + s.url + "' target='_blank' rel='noopener' aria-label='" + esc(s.platform) + " — " + esc(s.handle) + " (opens in a new tab)' data-reveal data-cursor='OPEN'>" +
-          meta +
-          "<span class='social__handle'>" + esc(s.handle) + " <span class='arrow'>&#8599;</span></span>" +
+          "<span class='social__plat'>" + esc(s.platform) + "</span>" +
+          "<span class='social__handle'>" + esc(s.handle) + " &#8599;</span>" +
         "</a>";
       }
       // unverified destination: show the handle as text, never as a dead link
       return "<div class='social__row social__row--static' data-reveal>" +
-        meta +
-        "<span class='social__handle'>" + esc(s.handle) + " <span class='social__pending'>link not published</span></span>" +
+        "<span class='social__plat'>" + esc(s.platform) + "</span>" +
+        "<span class='social__handle'>" + esc(s.handle) + "</span>" +
       "</div>";
     }).join("");
     $("social").innerHTML =

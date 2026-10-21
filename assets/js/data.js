@@ -177,7 +177,6 @@ window.NOVA_DATA = {
         desc:
           "A Gemini-powered AI app built from the Google AI Studio starter — Node.js and the Gemini API, set up to run locally with a simple install and dev workflow.",
         tools: ["Gemini API", "Node.js", "AI"],
-        status: "Functional",
         preview: "assets/img/work-1.png",
         url: "https://novva.vercel.app/",
       },
@@ -217,9 +216,9 @@ window.NOVA_DATA = {
     items: [
       { title: "[Visual Study]", category: "Visual Design", year: "", preview: "assets/img/creative-1.png", ratio: "1672/940", url: "visual-study.html" },
       { title: "[Brand Concept]", category: "Branding", year: "", preview: "assets/img/creative-2.png", ratio: "1672/1330", url: "brand.html" },
-      { title: "[Website Concept]", category: "Web Concept", year: "", preview: "assets/img/creative-3.png", ratio: "1568/882" },
-      { title: "[AI Experiment]", category: "AI Experiments", year: "", preview: "assets/img/creative-4.png", ratio: "1672/940" },
-      { title: "[Social Series]", category: "Social Media", year: "", preview: "assets/img/creative-5.png", ratio: "1672/940" },
+      { title: "[Website Concept]", category: "Web Concept", year: "", preview: "assets/img/creative-3.png", ratio: "1568/882", url: "website-concept.html" },
+      { title: "[AI Experiment]", category: "AI Experiments", year: "", preview: "assets/img/creative-4.png", ratio: "1672/940", url: "ai-experiments.html" },
+      { title: "[Social Series]", category: "Social Media", year: "", preview: "assets/img/creative-5.png", ratio: "1672/940", url: "social-media.html" },
       { title: "[About Me]", category: "Personal Portfolio", year: "", preview: "assets/img/creative-6.png", ratio: "1672/940" },
     ],
   },

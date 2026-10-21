@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0A0B" />
+
+  <title>Website Concept — NOVA</title>
+  <meta name="description" content="The concept behind the NOVA portfolio: objectives, single-page structure, technical features, visual design, accessibility and performance choices." />
+  <meta name="author" content="NOVA" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0A0B'/%3E%3Cpath d='M9 23V9l14 14V9' fill='none' stroke='%23FF4D2E' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="vs-top">
+    <div class="wrap vs-top__inner">
+      <a class="vs-top__brand" href="index.html" aria-label="NOVA — home">NOVA</a>
+      <a class="work-card__link" href="index.html#creative">Back to work <span class="arrow">&#8598;</span></a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="vs-hero">
+      <div class="wrap">
+        <span class="eyebrow">Creative — Website Concept</span>
+        <h1 class="display vs-hero__title">One Page, One Identity</h1>
+        <p class="vs-hero__lead">
+          The concept behind this portfolio: a single continuous scroll that introduces NOVA,
+          presents real projects and AI experiments, and stays fast, readable and accessible —
+          a personal brand experience, not a template.
+        </p>
+        <dl class="vs-meta">
+          <div class="vs-meta__item"><dt class="label-mono">Category</dt><dd>Web Concept</dd></div>
+          <div class="vs-meta__item"><dt class="label-mono">Structure</dt><dd>Single-page scroll</dd></div>
+          <div class="vs-meta__item"><dt class="label-mono">Stack</dt><dd>HTML · CSS · JavaScript — no frameworks</dd></div>
+          <div class="vs-meta__item"><dt class="label-mono">Status</dt><dd>Live</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 01 OBJECTIVES -->
+    <section class="vs-section">
+      <div class="wrap">
+        <div class="vs-prose">
+          <span class="label-mono">01 — Objectives</span>
+          <h2 class="vs-h2">What the site must do</h2>
+          <p>
+            The portfolio exists to introduce NOVA and its identity, present an authentic
+            biography, showcase actual projects and their purpose, communicate skills and
+            interests, demonstrate creative and technical thinking, present AI experiments
+            honestly, and provide accessible ways to connect. It is deliberately not an
+            unrelated commercial website — every section earns its place by serving one of
+            those goals.
+          </p>
+        </div>
+        <div class="vs-grid">
+          <div class="vs-item">
+            <span class="label-mono">Identity</span>
+            <h3>Who and what</h3>
+            <p>Hero and About answer who NOVA is and what is created within the first screen and a half.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Projects</span>
+            <h3>Real work first</h3>
+            <p>Selected Work and Creative show actual projects with purpose, tools and working links — never fabricated results.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Thinking</span>
+            <h3>Creative + technical</h3>
+            <p>Capabilities, Gaming identity and Philosophy expose how the work is approached, not only what it looks like.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Technology</span>
+            <h3>AI, stated honestly</h3>
+            <p>Experiments carry clear status labels — functional, demonstration or concept — with no simulated AI.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Connection</span>
+            <h3>Find and reach</h3>
+            <p>Social presence and Contact appear near the end of the scroll with verified destinations only.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Experience</span>
+            <h3>Memorable, not loud</h3>
+            <p>Distinctive through identity, content and execution — not through decoration for its own sake.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 STRUCTURE -->
+    <section class="vs-section vs-section--alt">
+      <div class="wrap vs-prose">
+        <span class="label-mono">02 — Structure</span>
+        <h2 class="vs-h2">One continuous scroll</h2>
+        <p>
+          The main site is a single long-scrolling page in a fixed order: hero, about,
+          capabilities, skillset, selected work, editorial marquee, gaming identity, creative
+          gallery, philosophy, social presence, contact, footer. Deeper written material —
+          visual study, brand concept, website concept, AI experiments, social media — lives on
+          focused detail pages reached from the creative gallery, so the main scroll stays
+          scannable and nothing is duplicated.
+        </p>
+        <p>
+          Each major section shifts atmosphere slightly — background tone, lighting density —
+          while staying inside the same identity. Normal browser scrolling is preserved
+          everywhere: no scroll hijacking, reliable touch behaviour, and reduced-motion
+          preferences respected.
+        </p>
+      </div>
+    </section>
+
+    <!-- 03 TECHNICAL -->
+    <section class="vs-section">
+      <div class="wrap">
+        <div class="vs-prose">
+          <span class="label-mono">03 — Technical features</span>
+          <h2 class="vs-h2">Built only what serves a purpose</h2>
+          <p>
+            The feature set is intentionally small. Everything below is implemented and working
+            in this site; anything that would add complexity without serving a visitor is left
+            out.
+          </p>
+        </div>
+        <div class="vs-grid">
+          <div class="vs-item">
+            <span class="label-mono">Navigation</span>
+            <h3>Responsive by default</h3>
+            <p>Sticky header, anchor links, mobile menu, scroll progress and a chapter HUD — all keyboard reachable.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Motion</span>
+            <h3>Controlled reveals</h3>
+            <p>Intersection-observer reveals, subtle parallax and a short loader — every animation has a reduced-motion off-switch.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Interactions</span>
+            <h3>Working links</h3>
+            <p>Clickable project cards, external links with correct rel attributes, copy-to-clipboard email, visible focus states.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Resilience</span>
+            <h3>Error states</h3>
+            <p>Broken preview images fall back to generated on-brand visuals; content stays readable even if animations never run.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Not included</span>
+            <h3>No server, no accounts</h3>
+            <p>No authentication, database or backend — no current feature requires one, and no API keys exist in client code.</p>
+          </div>
+          <div class="vs-item">
+            <span class="label-mono">Content</span>
+            <h3>Single source of truth</h3>
+            <p>All copy lives in one configuration file, so content edits never touch component code and cannot drift out of sync.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 VISUAL DESIGN -->
+    <section class="vs-section vs-section--alt">
+      <div class="wrap">
+        <div class="vs-prose">
+          <span class="label-mono">04 — Visual design</span>
+          <h2 class="vs-h2">Premium, futuristic, restrained</h2>
+          <p>
+            Dark cinematic backgrounds, restrained electric-blue lighting, strong readable
+            typography, clear hierarchy and carefully balanced negative space. The palette
+            below guides the Nova Prime Universe surfaces — detail pages, concept art and
+            experimental features — while the site's primary accent and N-monogram logo remain
+            untouched for identity continuity.
+          </p>
+        </div>
+        <div class="vs-swatches" role="list" aria-label="Concept palette">
+          <div class="vs-swatch" role="listitem" style="--sw:#05070D"><span>Midnight black</span><span class="label-mono">#05070D</span></div>
+          <div class="vs-swatch" role="listitem" style="--sw:#0A1020"><span>Deep navy</span><span class="label-mono">#0A1020</span></div>
+          <div class="vs-swatch" role="listitem" style="--sw:#367BFF"><span>Electric blue</span><span class="label-mono">#367BFF</span></div>
+          <div class="vs-swatch" role="listitem" style="--sw:#A9CBFF"><span>Ice blue</span><span class="label-mono">#A9CBFF</span></div>
+          <div class="vs-swatch" role="listitem" style="--sw:#F5F7FF"><span>Pure white</span><span class="label-mono">#F5F7FF</span></div>
+        </div>
+        <div class="vs-prose" style="margin-top:2.5rem">
+          <p>
+            Typography pairs a bold geometric display face for identity, a neutral body face for
+            long reading and a monospace voice for technical labels. The logo is a simple
+            geometric <strong>N</strong> monogram that holds up from favicon to footer. For the
+            full analysis of colour, light and composition, see
+            <a class="accent" href="visual-study.html">Visual Study &amp; Research</a>; for the
+            positioning behind it, see <a class="accent" href="brand.html">Brand Concept</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 EXPERIENCE -->
+    <section class="vs-section">
+      <div class="wrap vs-prose">
+        <span class="label-mono">05 — Experience &amp; accessibility</span>
+        <h2 class="vs-h2">Readable at every size</h2>
+        <p>
+          Fluid type scales keep headings bold without escaping small screens; body text stays
+          at a comfortable measure and line height. Grids reflow to single-column stacks on
+          mobile, images keep their focal crop, and semantic landmarks, a skip link, visible
+          focus styles and alt text make the page usable by keyboard and screen reader alike.
+        </p>
+        <p>
+          Essential information never depends on animation: if scripts fail, a noscript
+          message explains the state; if motion is reduced, all content renders immediately.
+          Spacing, component behaviour and link treatment stay consistent across every section
+          — consistency is what makes the experience feel professional rather than assembled.
+        </p>
+      </div>
+    </section>
+
+    <!-- 06 PERFORMANCE -->
+    <section class="vs-section vs-section--alt">
+      <div class="wrap vs-prose">
+        <span class="label-mono">06 — Performance &amp; maintenance</span>
+        <h2 class="vs-h2">Fast by staying simple</h2>
+        <p>
+          No frameworks, no runtime dependencies, no unnecessary network requests — the site
+          is static HTML, one stylesheet and two small scripts, built by a copy step and served
+          from a CDN. Images are lazy-loaded with explicit aspect ratios to prevent layout
+          shift, heavy blur effects and continuous animation loops are avoided, and the content
+          file keeps the whole site editable from one place.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="vs-foot">
+    <div class="wrap vs-foot__inner">
+      <span class="label-mono">NOVA — Creative 03</span>
+      <a class="work-card__link" href="index.html#creative">Back to Selected Creative <span class="arrow">&#8598;</span></a>
+    </div>
+  </footer>
+</body>
+</html>
