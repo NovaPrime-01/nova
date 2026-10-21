@@ -272,7 +272,8 @@
     var items = c.items.map(function (it, i) {
       var photo = it.preview && it.preview.trim() !== "" ? " cg--photo" : "";
       var ar = photo && it.ratio ? " style='aspect-ratio:" + esc(it.ratio) + "'" : "";
-      return "<article class='cg " + cls[i % cls.length] + photo + "'" + ar + " data-reveal data-cursor='VIEW'>" +
+      var urlAttr = it.url && it.url.trim() !== "" ? " data-url='" + esc(it.url) + "'" : "";
+      return "<article class='cg " + cls[i % cls.length] + photo + "'" + ar + urlAttr + " data-reveal data-cursor='VIEW'>" +
         preview(it, i + 20) +
         "<div class='cg__body'>" +
           "<span class='cg__cat'>" + esc(it.category) + "</span>" +
@@ -290,6 +291,15 @@
         "</div>" +
         "<div class='creative__grid'>" + items + "</div>" +
       "</div>";
+    // cards with a url open its page (internal pages stay in the same tab)
+    $("creative").addEventListener("click", function (e) {
+      if (e.target.closest("a")) return;
+      var card = e.target.closest(".cg[data-url]");
+      if (!card) return;
+      var url = card.getAttribute("data-url");
+      if (!url || url === "#") return;
+      window.location.href = url;
+    });
   }
 
   /* ---------------------------------------------------------------------------
