@@ -103,7 +103,7 @@ function blend(img, x, y, color, alpha) {
     img.print({ font: f128, x: 450, y: 175, text: "NOVA" });
     img.print({ font: f16, x: 455, y: 330, text: "DIGITAL CREATOR  \u00B7  GAMING  \u00B7  TECHNOLOGY  \u00B7  CREATIVE" });
     img.print({ font: f16, x: 455, y: 360, text: "Imagine Beyond. Create Without Limits." });
-    img.print({ font: f16, x: 455, y: 548, text: "novva.vercel.app" });
+    img.print({ font: f16, x: 455, y: 548, text: "nveportfolio.vercel.app" });
   } catch (e) {
     console.warn("Text skipped (font load failed):", e.message);
   }

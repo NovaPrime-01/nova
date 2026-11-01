@@ -32,7 +32,7 @@ window.NOVA_DATA = {
     title: "NOVA — Digital Creator & Creative Portfolio",
     description:
       "NOVA is a digital creator working at the intersection of gaming, technology and creative projects. Selected work, identity and experiments.",
-    url: "https://novva.vercel.app",
+    url: "https://nveportfolio.vercel.app",
     // Open Graph image — replace with a real hosted image when available
     ogImage: "assets/img/og-cover.png",
   },
@@ -178,7 +178,7 @@ window.NOVA_DATA = {
           "A Gemini-powered AI app built from the Google AI Studio starter — Node.js and the Gemini API, set up to run locally with a simple install and dev workflow.",
         tools: ["Gemini API", "Node.js", "AI"],
         preview: "assets/img/work-1.png",
-        url: "https://novva.vercel.app/",
+        url: "ai-experiments.html",
       },
     ],
   },
