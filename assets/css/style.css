@@ -133,6 +133,12 @@ ul { list-style: none; }
   line-height: 0.92;
   letter-spacing: -0.02em;
 }
+/* section headings: subtle top-lit gradient for depth (hero__title overrides with its own) */
+h2.display {
+  background: linear-gradient(180deg, #ffffff 0%, #cfccc6 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
 
 /* Heading overflow safeguard: never let large display type escape its container on any device */
 .hero__title, .about__heading, .work-card__title, .do__title,
@@ -163,7 +169,8 @@ section { scroll-margin-top: 90px; }
   display: block;
   height: 100%;
   width: 0%;
-  background: var(--accent);
+  background: linear-gradient(90deg, #FF4D2E, #ff7a52);
+  box-shadow: 0 0 12px rgba(255,77,46,0.8), 0 0 4px rgba(255,77,46,1);
   transition: width 0.1s linear;
 }
 
@@ -382,9 +389,10 @@ section { scroll-margin-top: 90px; }
 .hero__bg::before {
   content: ""; position: absolute; inset: -20%;
   background:
-    radial-gradient(40% 50% at 20% 30%, rgba(255,77,46,0.10), transparent 60%),
-    radial-gradient(45% 55% at 80% 70%, rgba(80,90,140,0.10), transparent 60%);
-  filter: blur(20px);
+    radial-gradient(38% 48% at 22% 32%, rgba(255,77,46,0.22), transparent 62%),
+    radial-gradient(44% 54% at 78% 68%, rgba(54,123,255,0.16), transparent 62%),
+    radial-gradient(60% 45% at 50% 120%, rgba(255,77,46,0.10), transparent 60%);
+  filter: blur(24px);
   animation: drift 24s var(--ease-2) infinite alternate;
 }
 .hero__bg::after {
@@ -420,10 +428,16 @@ section { scroll-margin-top: 90px; }
   text-align: center;
   max-width: 100%; overflow-wrap: break-word;
   will-change: transform;
+  /* soft accent glow behind the wordmark (solid fill stays on the letters) */
+  filter: drop-shadow(0 8px 44px rgba(255, 77, 46, 0.20)) drop-shadow(0 2px 10px rgba(0,0,0,0.5));
 }
+/* gradient lives on each letter so transformed spans still clip correctly */
 .hero__title .hero__ch {
   display: inline-block; will-change: transform;
   opacity: 0; transform: translateY(0.35em);
+  background: linear-gradient(180deg, #ffffff 0%, #ECEAE6 48%, #d3ccc4 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
 }
 .hero__title.is-visible .hero__ch {
   animation: chIn 0.85s var(--ease) forwards;
@@ -581,6 +595,12 @@ section { scroll-margin-top: 90px; }
 .work-card__media {
   position: relative; aspect-ratio: 4 / 3; overflow: hidden;
   border: 1px solid var(--line); background: var(--bg-2);
+  transition: border-color 0.5s var(--ease), box-shadow 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.work-card:hover .work-card__media {
+  border-color: rgba(255,77,46,0.5);
+  box-shadow: 0 20px 60px -20px rgba(255,77,46,0.35), 0 0 0 1px rgba(255,77,46,0.2);
+  transform: translateY(-4px);
 }
 .work-card__media img, .work-card__media .art {
   position: absolute; inset: 0; width: 100%; height: 100%;
@@ -676,9 +696,13 @@ section { scroll-margin-top: 90px; }
 .cg {
   position: relative; overflow: hidden; border: 1px solid var(--line); background: var(--bg-2);
   min-height: 240px; display: flex; align-items: flex-end;
-  transition: border-color 0.4s var(--ease);
+  transition: border-color 0.4s var(--ease), box-shadow 0.5s var(--ease), transform 0.5s var(--ease);
 }
-.cg:hover { border-color: var(--line-2); }
+.cg:hover {
+  border-color: rgba(255,77,46,0.55);
+  box-shadow: 0 24px 70px -28px rgba(255,77,46,0.4);
+  transform: translateY(-4px);
+}
 .cg .art { position: absolute; inset: 0; transition: transform 0.9s var(--ease); }
 .cg:hover .art { transform: scale(1.07); }
 .cg.cg--photo { min-height: 0; }
