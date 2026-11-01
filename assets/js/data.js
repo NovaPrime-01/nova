@@ -34,7 +34,7 @@ window.NOVA_DATA = {
       "NOVA is a digital creator working at the intersection of gaming, technology and creative projects. Selected work, identity and experiments.",
     url: "https://novva.vercel.app",
     // Open Graph image — replace with a real hosted image when available
-    ogImage: "",
+    ogImage: "assets/img/og-cover.png",
   },
 
   /* ---------------------------------------------------------------------------
@@ -214,12 +214,12 @@ window.NOVA_DATA = {
     heading: "Creative Projects",
     intro: "Experiments, studies and concepts from the workshop.",
     items: [
-      { title: "[Visual Study]", category: "Visual Design", year: "", preview: "assets/img/creative-1.png", ratio: "1672/940", url: "visual-study.html" },
-      { title: "[Brand Concept]", category: "Branding", year: "", preview: "assets/img/creative-2.png", ratio: "1672/1330", url: "brand.html" },
-      { title: "[Website Concept]", category: "Web Concept", year: "", preview: "assets/img/creative-3.png", ratio: "1568/882", url: "website-concept.html" },
-      { title: "[AI Experiment]", category: "AI Experiments", year: "", preview: "assets/img/creative-4.png", ratio: "1672/940", url: "ai-experiments.html" },
-      { title: "[Social Series]", category: "Social Media", year: "", preview: "assets/img/creative-5.png", ratio: "1672/940", url: "social-media.html" },
-      { title: "[About Me]", category: "Personal Portfolio", year: "", preview: "assets/img/creative-6.png", ratio: "1672/940" },
+      { title: "Visual Study", category: "Visual Design", year: "", preview: "assets/img/creative-1.png", ratio: "1672/940", url: "visual-study.html" },
+      { title: "Brand Concept", category: "Branding", year: "", preview: "assets/img/creative-2.png", ratio: "1672/1330", url: "brand.html" },
+      { title: "Website Concept", category: "Web Concept", year: "", preview: "assets/img/creative-3.png", ratio: "1568/882", url: "website-concept.html" },
+      { title: "AI Experiments", category: "AI Experiments", year: "", preview: "assets/img/creative-4.png", ratio: "1672/940", url: "ai-experiments.html" },
+      { title: "Social Presence", category: "Social Media", year: "", preview: "assets/img/creative-5.png", ratio: "1672/940", url: "social-media.html" },
+      { title: "About NOVA", category: "Personal Portfolio", year: "", preview: "assets/img/creative-6.png", ratio: "1672/940" },
     ],
   },
 

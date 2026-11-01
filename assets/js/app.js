@@ -112,11 +112,15 @@
   function renderHero() {
     var social = D.social.map(function (s) { return socialInline(s, true); }).join("");
     var h = D.hero;
+    // split headline into per-letter spans for the stagger reveal
+    var chars = h.headline.split("").map(function (ch, i) {
+      return "<span class='hero__ch' style='--i:" + i + "'>" + (ch === " " ? "&nbsp;" : esc(ch)) + "</span>";
+    }).join("");
     $("hero").innerHTML =
       "<div class='hero__bg'><div class='hero__glow' id='heroGlow'></div><div class='hero__noise'></div></div>" +
       "<div class='wrap hero__inner'>" +
         "<span class='hero__status' data-reveal data-hero><span class='dot'></span>" + esc(h.status) + "</span>" +
-        "<h1 class='hero__title display' id='heroTitle' data-reveal data-hero data-parallax>" + esc(h.headline) + "</h1>" +
+        "<h1 class='hero__title display' id='heroTitle' data-reveal data-hero data-parallax>" + chars + "</h1>" +
         "<p class='hero__sub' data-reveal data-hero>" + esc(h.sub) + "</p>" +
         "<p class='hero__statement' data-reveal data-hero>" + esc(h.statement) + "</p>" +
         "<div class='hero__bottom'>" +
@@ -285,7 +289,8 @@
       var photo = it.preview && it.preview.trim() !== "" ? " cg--photo" : "";
       var ar = photo && it.ratio ? " style='aspect-ratio:" + esc(it.ratio) + "'" : "";
       var urlAttr = it.url && it.url.trim() !== "" ? " data-url='" + esc(it.url) + "'" : "";
-      return "<article class='cg " + cls[i % cls.length] + photo + "'" + ar + urlAttr + " data-reveal data-cursor='VIEW'>" +
+      var cursorAttr = urlAttr ? " data-cursor='VIEW'" : "";
+      return "<article class='cg " + cls[i % cls.length] + photo + "'" + ar + urlAttr + " data-reveal" + cursorAttr + ">" +
         preview(it, i + 20) +
         "<div class='cg__body'>" +
           "<span class='cg__cat'>" + esc(it.category) + "</span>" +
