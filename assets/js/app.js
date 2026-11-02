@@ -117,10 +117,19 @@
       return "<span class='hero__ch' style='--i:" + i + "'>" + (ch === " " ? "&nbsp;" : esc(ch)) + "</span>";
     }).join("");
     $("hero").innerHTML =
-      "<div class='hero__bg'><div class='hero__glow' id='heroGlow'></div><div class='hero__noise'></div></div>" +
+      "<div class='hero__bg'>" +
+        "<canvas class='hero__canvas' id='heroCanvas' aria-hidden='true'></canvas>" +
+        "<div class='hero__glow' id='heroGlow'></div>" +
+        "<div class='hero__grid'></div>" +
+        "<div class='hero__noise'></div>" +
+        "<div class='hero__vignette'></div>" +
+      "</div>" +
       "<div class='wrap hero__inner'>" +
         "<span class='hero__status' data-reveal data-hero><span class='dot'></span>" + esc(h.status) + "</span>" +
-        "<h1 class='hero__title display' id='heroTitle' data-reveal data-hero data-parallax>" + chars + "</h1>" +
+        "<div class='hero__titlewrap'>" +
+          "<h1 class='hero__title display' id='heroTitle' data-reveal data-hero data-parallax>" + chars + "</h1>" +
+          "<span class='hero__reflect' aria-hidden='true'><span class='hero__reflect-in'>" + esc(h.headline) + "</span></span>" +
+        "</div>" +
         "<p class='hero__sub' data-reveal data-hero>" + esc(h.sub) + "</p>" +
         "<p class='hero__statement' data-reveal data-hero>" + esc(h.statement) + "</p>" +
         "<div class='hero__bottom'>" +
@@ -449,6 +458,14 @@
       document.querySelectorAll("[data-hero]").forEach(function (t) { t.classList.add("is-visible"); });
       return;
     }
+    // cinematic stagger: siblings revealed together enter in sequence
+    Array.prototype.forEach.call(targets, function (t) {
+      var parent = t.parentNode;
+      if (!parent || parent.nodeType !== 1) return;
+      if (typeof parent.__revealIdx !== "number") parent.__revealIdx = 0;
+      t.style.setProperty("--rd", Math.min(parent.__revealIdx * 90, 360) + "ms");
+      parent.__revealIdx += 1;
+    });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
@@ -565,6 +582,161 @@
       label.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
       requestAnimationFrame(loop);
     })();
+  }
+
+  /* ---------------------------------------------------------------------------
+     HERO FIELD — floating particles + falling digital characters on canvas.
+     Layered depth (3 parallax planes), ambient light transitions.
+     Disabled for reduced-motion, small screens get fewer particles.
+  --------------------------------------------------------------------------- */
+  function initHeroField() {
+    var canvas = $("heroCanvas");
+    if (!canvas || reduceMotion) return;
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    var heroEl = document.getElementById("hero");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+    var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var small = window.matchMedia("(max-width: 760px)").matches;
+    var running = true;
+    var raf = 0;
+    var t = 0;
+    var mx = 0.5, my = 0.5, px = 0.5, py = 0.5;
+
+    var GLYPHS = "01<>/\\{}[]#*+=-·ABCDEFNX".split("");
+    var pCount = small ? 26 : 60;
+    var gCount = small ? 6 : 14;
+
+    var particles = [], glyphs = [];
+    function seed() {
+      particles = [];
+      for (var i = 0; i < pCount; i++) {
+        particles.push({
+          x: Math.random(), y: Math.random(),
+          z: 0.25 + Math.random() * 0.75,          // depth plane
+          r: 0.6 + Math.random() * 1.7,
+          vx: (Math.random() - 0.5) * 0.00018,
+          vy: -(0.00006 + Math.random() * 0.00016),
+          tw: Math.random() * Math.PI * 2,
+          hot: Math.random() < 0.22                 // some particles glow accent
+        });
+      }
+      glyphs = [];
+      for (var j = 0; j < gCount; j++) {
+        glyphs.push({
+          x: Math.random(), y: Math.random(),
+          z: 0.3 + Math.random() * 0.7,
+          s: 10 + Math.random() * 8,
+          v: 0.00012 + Math.random() * 0.00028,
+          ch: GLYPHS[(Math.random() * GLYPHS.length) | 0],
+          flick: Math.random() * Math.PI * 2
+        });
+      }
+    }
+    seed();
+
+    function resize() {
+      var rect = heroEl.getBoundingClientRect();
+      W = Math.max(1, Math.round(rect.width));
+      H = Math.max(1, Math.round(rect.height));
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener("resize", function () { resize(); }, { passive: true });
+
+    if (fine) {
+      window.addEventListener("mousemove", function (e) {
+        mx = e.clientX / window.innerWidth;
+        my = e.clientY / window.innerHeight;
+      }, { passive: true });
+    }
+
+    // pause when hero scrolled out of view — keeps scroll at 60fps
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        running = entries[0].isIntersecting;
+        if (running && !raf) raf = requestAnimationFrame(loop);
+      }, { threshold: 0 }).observe(heroEl);
+    }
+
+    function frame() {
+      t += 1;
+      px += (mx - px) * 0.045;
+      py += (my - py) * 0.045;
+      var ox = (px - 0.5), oy = (py - 0.5);
+
+      ctx.clearRect(0, 0, W, H);
+
+      // ambient breathing wash — warm light drifting across the field
+      var breathe = 0.5 + Math.sin(t * 0.006) * 0.5;
+      var g = ctx.createRadialGradient(
+        W * (0.3 + ox * 0.06), H * (0.35 + oy * 0.05), 0,
+        W * 0.5, H * 0.5, Math.max(W, H) * 0.7
+      );
+      g.addColorStop(0, "rgba(255,77,46," + (0.045 + breathe * 0.035).toFixed(3) + ")");
+      g.addColorStop(1, "rgba(255,77,46,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+
+      // digital characters — slow rain with flicker
+      ctx.font = "600 13px 'Space Mono', monospace";
+      ctx.textAlign = "center";
+      for (var j = 0; j < glyphs.length; j++) {
+        var gl = glyphs[j];
+        gl.y += gl.v * (0.5 + gl.z);
+        if (gl.y > 1.1) { gl.y = -0.1; gl.x = Math.random(); gl.ch = GLYPHS[(Math.random() * GLYPHS.length) | 0]; }
+        gl.flick += 0.05;
+        var ga = (0.10 + 0.16 * gl.z) * (0.55 + 0.45 * Math.sin(gl.flick));
+        var gx = gl.x * W + ox * 46 * gl.z;
+        var gy = gl.y * H + oy * 30 * gl.z;
+        ctx.fillStyle = j % 4 === 0
+          ? "rgba(255,110,80," + ga.toFixed(3) + ")"
+          : "rgba(235,230,222," + (ga * 0.7).toFixed(3) + ")";
+        ctx.font = "600 " + gl.s.toFixed(0) + "px 'Space Mono', monospace";
+        ctx.fillText(gl.ch, gx, gy);
+      }
+
+      // particles — depth-parallax dust
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.x += p.vx * (0.5 + p.z);
+        p.y += p.vy * (0.5 + p.z);
+        if (p.y < -0.05) { p.y = 1.05; p.x = Math.random(); }
+        if (p.x < -0.05) p.x = 1.05;
+        if (p.x > 1.05) p.x = -0.05;
+        p.tw += 0.03;
+        var tw = 0.45 + 0.55 * Math.abs(Math.sin(p.tw));
+        var a = (0.14 + 0.42 * p.z) * tw;
+        var x = p.x * W + ox * 70 * p.z;
+        var y = p.y * H + oy * 46 * p.z;
+        ctx.beginPath();
+        ctx.arc(x, y, p.r * p.z, 0, Math.PI * 2);
+        ctx.fillStyle = p.hot
+          ? "rgba(255,110,80," + a.toFixed(3) + ")"
+          : "rgba(240,236,228," + (a * 0.8).toFixed(3) + ")";
+        ctx.fill();
+        if (p.hot && p.z > 0.7) {              // glow bloom on the near plane
+          ctx.beginPath();
+          ctx.arc(x, y, p.r * 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,77,46," + (a * 0.10).toFixed(3) + ")";
+          ctx.fill();
+        }
+      }
+    }
+
+    function loop() {
+      raf = 0;
+      if (!running) return;
+      frame();
+      raf = requestAnimationFrame(loop);
+    }
+    raf = requestAnimationFrame(loop);
   }
 
   /* ---------------------------------------------------------------------------
@@ -702,6 +874,7 @@
     initMenu();
     initCursor();
     initParallax();
+    initHeroField();
     initHud();
     initCopy();
     initAnchors();
