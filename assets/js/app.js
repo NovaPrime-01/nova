@@ -23,7 +23,7 @@
       return s / 233280;
     };
     var W = 800, H = 600;
-    var bg = ["#0E0E11", "#0B0B0D", "#101013", "#0C0C0F"][Math.floor(rnd() * 4)];
+    var bg = ["#1A1A1F", "#17171C", "#1E1E24", "#18181D"][Math.floor(rnd() * 4)];
     var cx = (rnd() * W).toFixed(0);
     var cy = (rnd() * H).toFixed(0);
     var r = (rnd() * 240 + 120).toFixed(0);

@@ -13,9 +13,9 @@ const FONT_DIR = path.join(
   __dirname, "..", "node_modules", "@jimp", "plugin-print", "fonts", "open-sans"
 );
 
-const BG = { r: 10, g: 10, b: 11 };        // #0A0A0B
+const BG = { r: 20, g: 20, b: 23 };        // #141417 — charcoal theme
 const ACCENT = { r: 255, g: 77, b: 46 };   // #FF4D2E
-const BLUE = { r: 54, g: 123, b: 255 };    // #367BFF
+const DEEPRED = { r: 150, g: 32, b: 18 };  // dark red ambient (matches hero)
 const WHITE = { r: 245, g: 247, b: 255 };  // #F5F7FF
 const DIM = { r: 150, g: 152, b: 160 };    // muted grey
 
@@ -39,16 +39,16 @@ function blend(img, x, y, color, alpha) {
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
       const idx = (W * y + x) << 2;
-      // base vertical gradient: slightly lighter at top
+      // base vertical gradient: charcoal, slightly lighter at top
       const g = 1 - y / H * 0.5;
-      d[idx] = 8 + 14 * g;
-      d[idx + 1] = 8 + 14 * g;
-      d[idx + 2] = 12 + 16 * g;
+      d[idx] = 20 + 10 * g;
+      d[idx + 1] = 20 + 10 * g;
+      d[idx + 2] = 23 + 12 * g;
       d[idx + 3] = 255;
     }
   }
 
-  // radial glows (accent left-bottom, blue right-top)
+  // radial glows (accent left-bottom, deep red right-top)
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
       const dx1 = (x - W * 0.18) / (W * 0.42), dy1 = (y - H * 0.82) / (H * 0.55);
@@ -56,7 +56,7 @@ function blend(img, x, y, color, alpha) {
       const dx2 = (x - W * 0.86) / (W * 0.40), dy2 = (y - H * 0.14) / (H * 0.50);
       const a2 = Math.max(0, 1 - (dx2 * dx2 + dy2 * dy2)) * 0.26;
       blend(img, x, y, ACCENT, a1);
-      blend(img, x, y, BLUE, a2);
+      blend(img, x, y, DEEPRED, a2);
     }
   }
 
