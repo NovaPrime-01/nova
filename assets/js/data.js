@@ -178,7 +178,7 @@ window.NOVA_DATA = {
           "A Gemini-powered AI app built from the Google AI Studio starter — Node.js and the Gemini API, set up to run locally with a simple install and dev workflow.",
         tools: ["Gemini API", "Node.js", "AI"],
         preview: "assets/img/work-1.png",
-        url: "ai-experiments.html",
+        url: "https://novva.vercel.app/",
       },
     ],
   },
