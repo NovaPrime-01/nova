@@ -1,7 +1,7 @@
 /* =============================================================================
    NOVA — OG COVER GENERATOR
-   Creates assets/img/og-cover.png (1200x630) with jimp: dark cinematic
-   background, glow, grid, geometric N monogram, "NOVA" wordmark + tagline.
+   Creates assets/img/og-cover.png (1200x630) with jimp.
+   Look: black background, bold geometric N monogram in accent red.
    Run: node scripts/make-og.js
 ============================================================================= */
 const { Jimp, loadFont } = require("jimp");
@@ -13,11 +13,9 @@ const FONT_DIR = path.join(
   __dirname, "..", "node_modules", "@jimp", "plugin-print", "fonts", "open-sans"
 );
 
-const BG = { r: 20, g: 20, b: 23 };        // #141417 — charcoal theme
-const ACCENT = { r: 255, g: 77, b: 46 };   // #FF4D2E
-const DEEPRED = { r: 150, g: 32, b: 18 };  // dark red ambient (matches hero)
-const WHITE = { r: 245, g: 247, b: 255 };  // #F5F7FF
-const DIM = { r: 150, g: 152, b: 160 };    // muted grey
+const BLACK = { r: 4, g: 4, b: 5 };         // near-black ground
+const ACCENT = { r: 255, g: 77, b: 46 };    // #FF4D2E — the red
+const DEEPRED = { r: 150, g: 32, b: 18 };   // dark red ambient
 
 function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
@@ -33,51 +31,35 @@ function blend(img, x, y, color, alpha) {
 }
 
 (async () => {
-  const img = new Jimp({ width: W, height: H, color: 0x0a0a0bff });
+  const img = new Jimp({ width: W, height: H, color: 0x040405ff });
 
+  // solid black ground (very slight lift toward the centre)
   const d = img.bitmap.data;
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
       const idx = (W * y + x) << 2;
-      // base vertical gradient: charcoal, slightly lighter at top
-      const g = 1 - y / H * 0.5;
-      d[idx] = 20 + 10 * g;
-      d[idx + 1] = 20 + 10 * g;
-      d[idx + 2] = 23 + 12 * g;
+      const cx = (x - W / 2) / (W / 2), cy = (y - H / 2) / (H / 2);
+      const lift = Math.max(0, 1 - (cx * cx + cy * cy)) * 8;
+      d[idx] = 4 + lift;
+      d[idx + 1] = 4 + lift;
+      d[idx + 2] = 5 + lift;
       d[idx + 3] = 255;
     }
   }
 
-  // radial glows (accent left-bottom, deep red right-top)
+  // faint dark-red halo behind the monogram — keeps the black from going flat
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
-      const dx1 = (x - W * 0.18) / (W * 0.42), dy1 = (y - H * 0.82) / (H * 0.55);
-      const a1 = Math.max(0, 1 - (dx1 * dx1 + dy1 * dy1)) * 0.34;
-      const dx2 = (x - W * 0.86) / (W * 0.40), dy2 = (y - H * 0.14) / (H * 0.50);
-      const a2 = Math.max(0, 1 - (dx2 * dx2 + dy2 * dy2)) * 0.26;
-      blend(img, x, y, ACCENT, a1);
-      blend(img, x, y, DEEPRED, a2);
+      const dx = (x - W * 0.5) / (W * 0.34), dy = (y - H * 0.46) / (H * 0.62);
+      const a = Math.max(0, 1 - (dx * dx + dy * dy)) * 0.30;
+      blend(img, x, y, DEEPRED, a);
     }
   }
 
-  // subtle grid, masked toward edges
-  for (let x = 0; x < W; x += 60) {
-    for (let y = 0; y < H; y++) {
-      const cx = (x - W / 2) / (W / 2), cy = (y - H / 2) / (H / 2);
-      const fall = Math.max(0, 1 - (cx * cx + cy * cy) * 1.1);
-      blend(img, x, y, { r: 255, g: 255, b: 255 }, 0.045 * fall);
-    }
-  }
-  for (let y = 0; y < H; y += 60) {
-    for (let x = 0; x < W; x++) {
-      const cx = (x - W / 2) / (W / 2), cy = (y - H / 2) / (H / 2);
-      const fall = Math.max(0, 1 - (cx * cx + cy * cy) * 1.1);
-      blend(img, x, y, { r: 255, g: 255, b: 255 }, 0.045 * fall);
-    }
-  }
+  // geometric N monogram — centred, thick red strokes
+  const nw = 340, nh = 360, t = 46;
+  const nx = Math.round((W - nw) / 2), ny = Math.round(H * 0.46 - nh / 2);
 
-  // geometric N monogram (left), stroke drawn as thick segments
-  const nx = 200, ny = 210, nw = 200, nh = 200, t = 22;
   function seg(x1, y1, x2, y2) {
     const steps = Math.ceil(Math.hypot(x2 - x1, y2 - y1)) * 2;
     for (let s = 0; s <= steps; s++) {
@@ -86,7 +68,7 @@ function blend(img, x, y, color, alpha) {
       for (let oy = -t / 2; oy <= t / 2; oy++) {
         for (let ox = -t / 2; ox <= t / 2; ox++) {
           const X = Math.round(px + ox), Y = Math.round(py + oy);
-          if (X >= 0 && X < W && Y >= 0 && Y < H) blend(img, X, Y, ACCENT, 0.95);
+          if (X >= 0 && X < W && Y >= 0 && Y < H) blend(img, X, Y, ACCENT, 1);
         }
       }
     }
@@ -95,15 +77,41 @@ function blend(img, x, y, color, alpha) {
   seg(nx, ny, nx + nw, ny + nh);      // diagonal
   seg(nx + nw, ny + nh, nx + nw, ny); // right stem
 
-  // text
+  // wordmark + url — print on a transparent scratch, measure ink, centre exactly
   try {
-    const f128 = await loadFont(path.join(FONT_DIR, "open-sans-128-white", "open-sans-128-white.fnt"));
+    const f64 = await loadFont(path.join(FONT_DIR, "open-sans-64-white", "open-sans-64-white.fnt"));
     const f16 = await loadFont(path.join(FONT_DIR, "open-sans-16-white", "open-sans-16-white.fnt"));
 
-    img.print({ font: f128, x: 450, y: 175, text: "NOVA" });
-    img.print({ font: f16, x: 455, y: 330, text: "DIGITAL CREATOR  \u00B7  GAMING  \u00B7  TECHNOLOGY  \u00B7  CREATIVE" });
-    img.print({ font: f16, x: 455, y: 360, text: "Imagine Beyond. Create Without Limits." });
-    img.print({ font: f16, x: 455, y: 548, text: "nveportfolio.vercel.app" });
+    // returns {w, h, minX, minY} of non-transparent ink
+    function inkBox(buf, w, h) {
+      let minX = 1e9, minY = 1e9, maxX = -1, maxY = -1;
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          if (buf[((w * y + x) << 2) + 3] > 8) {
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+      if (maxX < 0) return null;
+      return { w: maxX - minX + 1, h: maxY - minY + 1, minX: minX, minY: minY };
+    }
+
+    async function placeCentered(text, font, topY) {
+      const SW = 1200, SH = 300;
+      const scratch = new Jimp({ width: SW, height: SH, color: 0x00000000 });
+      await scratch.print({ font: font, x: 0, y: 0, text: text });
+      const box = inkBox(scratch.bitmap.data, SW, SH);
+      if (!box) return;
+      const dx = Math.round((W - box.w) / 2) - box.minX;
+      const dy = topY - box.minY;
+      await img.composite(scratch, dx, dy);
+    }
+
+    await placeCentered("NOVA", f64, 500);
+    await placeCentered("nveportfolio.vercel.app", f16, 582);
   } catch (e) {
     console.warn("Text skipped (font load failed):", e.message);
   }
