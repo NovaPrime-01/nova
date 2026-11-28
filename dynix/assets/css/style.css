@@ -514,6 +514,10 @@ body::after {
   user-select: none;
 }
 
+/* split letters are grouped into .word spans — the only unbreakable unit,
+   so headlines wrap cleanly at spaces instead of mid-word or shrinking */
+.word { display: inline-block; white-space: nowrap; }
+
 .hero__inner { max-width: var(--maxw); margin: 0 auto; width: 100%; }
 .hero__eyebrow { margin-bottom: clamp(1.4rem, 3vw, 2.2rem); }
 .hero__title {
@@ -523,10 +527,11 @@ body::after {
   line-height: 0.94;
   font-weight: 800;
 }
-/* overflow:hidden drives the reveal mask, so it needs bottom room for
-   descenders (y, p, g) or "BIRTHDAY" gets its tail cut off */
-.hero__line {
-  display: block;
+.hero__line { display: block; }
+/* the reveal mask lives on each word: even when a line wraps to two
+   rows, every word clips its own characters (needs bottom room for
+   descenders — y, p, g — or "BIRTHDAY" gets its tail cut off) */
+.hero__line .word {
   overflow: hidden;
   padding-bottom: 0.16em;
   margin-bottom: -0.07em;
@@ -542,7 +547,8 @@ body::after {
   transform: translateY(135%) rotate(4deg);
   will-change: transform;
 }
-.hero__line .sp { width: 0.28em; }
+/* space spans have no glyph of their own — inline-block makes the width stick */
+.hero__line .sp { display: inline-block; width: 0.28em; }
 
 .hero__lower {
   display: flex;
@@ -868,8 +874,20 @@ body::after {
 
 /* ---------- wishes ---------- */
 
-.wishes__head { max-width: var(--maxw); margin: 0 auto; }
+.wishes {
+  /* pinning this section: it should always fill the viewport so no dead
+     band shows below it while the track scrubs horizontally */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* width:100% — as flex items these used fit-content sizing, and the
+   track's huge min-content stretched the viewport to max-width (1360px),
+   spilling horizontal overflow across the page */
+.wishes__head { width: 100%; max-width: var(--maxw); margin: 0 auto; }
 .wishes__viewport {
+  width: 100%;
   max-width: var(--maxw);
   margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
   overflow-x: auto;
@@ -877,6 +895,9 @@ body::after {
   scrollbar-width: none;
   -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
+  /* dragging the pinned track must never paint a text selection */
+  -webkit-user-select: none;
+  user-select: none;
 }
 .wishes__viewport::-webkit-scrollbar { display: none; }
 .wishes__track {
@@ -886,6 +907,9 @@ body::after {
   gap: clamp(0.9rem, 1.6vw, 1.4rem);
   padding-bottom: 0.5rem;
   width: max-content;
+  /* GSAP scrubs this transform every frame — promote it once so the
+     horizontal glide stays on the compositor */
+  will-change: transform;
 }
 .wish {
   position: relative;
@@ -898,11 +922,15 @@ body::after {
   -webkit-backdrop-filter: blur(14px);
   display: flex;
   flex-direction: column;
-  transition: border-color 0.5s var(--ease), transform 0.6s var(--ease), background 0.5s;
+  /* NO transform here: GSAP drives y on this element during the pinned
+     horizontal scrub — a transition on transform would fight it every
+     frame and make the cards rubber-band. Hover lift uses the separate
+     `translate` property instead, which composes with GSAP's transform. */
+  transition: border-color 0.5s var(--ease), background 0.5s var(--ease), translate 0.6s var(--ease);
 }
 .wish:hover {
   border-color: var(--gold-dim);
-  transform: translateY(-6px);
+  translate: 0 -6px;
   background: linear-gradient(160deg, var(--glass-hi), rgba(255, 255, 255, 0.02));
 }
 .wish__num {
@@ -930,6 +958,7 @@ body::after {
 .wish p { color: var(--ink-40); font-size: 0.92rem; line-height: 1.6; }
 .wishes__hint {
   display: none;
+  width: 100%;
   max-width: var(--maxw);
   margin: 1.4rem auto 0;
   font-family: var(--font-mono);
@@ -1130,7 +1159,7 @@ body::after {
   color: transparent;
 }
 .reveal__title .ch { display: inline-block; transform: translateY(110%); opacity: 0; }
-.reveal__title .sp { width: 0.28em; }
+.reveal__title .sp { display: inline-block; width: 0.28em; }
 .reveal__sub {
   margin-top: 1.4rem;
   font-family: var(--font-serif);
@@ -1158,6 +1187,9 @@ body::after {
 .finale {
   min-height: 100svh;
   display: grid;
+  /* minmax(0,1fr) stops the auto track from grow-to-fit the nowrap title,
+     which used to push .finale__inner wider than the viewport */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   text-align: center;
   overflow: hidden;
@@ -1165,7 +1197,9 @@ body::after {
 .finale__bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
 .finale__bg .orb { opacity: 0.35; }
 .finale__bg .orb--gold { right: -20vw; top: auto; bottom: -25vw; }
-.finale__inner { max-width: 1000px; }
+/* width:100% — without it the grid item shrink-wraps to the nowrap
+   title, so the auto-fit measures a box wider than the viewport */
+.finale__inner { width: 100%; max-width: 1000px; }
 .finale__title {
   font-size: clamp(2.5rem, 11.5vw, 10.5rem);
   text-transform: uppercase;
@@ -1173,14 +1207,17 @@ body::after {
   line-height: 0.86;
   font-weight: 800;
 }
-.finale__title span {
+/* > span: only the line wrappers — a bare span selector would also hit
+   the inner .word/.ch spans and stretch them to full width */
+.finale__title > span {
   display: block;
   overflow: hidden;
   padding-bottom: 0.16em;
   margin-bottom: -0.07em;
+  white-space: nowrap;
 }
 .finale__title .ch { display: inline-block; transform: translateY(135%); }
-.finale__title .sp { width: 0.28em; }
+.finale__title .sp { display: inline-block; width: 0.28em; }
 .finale__wish {
   margin-top: clamp(2rem, 5vw, 3.2rem);
   font-family: var(--font-mono);
@@ -1247,6 +1284,7 @@ body::after {
   .nav__date { display: block; }
   .cards { grid-template-columns: repeat(3, 1fr); }
   .wishes__hint { display: block; }
+  .wishes__track { grid-auto-columns: minmax(290px, 24vw); }
   .footer__inner { flex-direction: row; justify-content: space-between; text-align: left; }
 }
 
@@ -1255,7 +1293,6 @@ body::after {
   .hud { display: flex; }
   .story__grid { grid-template-columns: 0.95fr 1.05fr; }
   .story__sticky { position: sticky; top: 24vh; }
-  .wishes__track { grid-auto-columns: minmax(290px, 24vw); }
 }
 
 @media (max-width: 640px) {

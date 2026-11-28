@@ -27,6 +27,7 @@
     var text = el.textContent;
     var frag = document.createDocumentFragment();
     var chars = [];
+    var word = null;
 
     for (var i = 0; i < text.length; i++) {
       var c = text[i];
@@ -34,12 +35,20 @@
         var sp = document.createElement("span");
         sp.className = "sp";
         frag.appendChild(sp);
+        word = null;
         continue;
+      }
+      /* group letters per word: the word span is the only unbreakable
+         unit, so headlines wrap cleanly at spaces instead of shrinking */
+      if (!word) {
+        word = document.createElement("span");
+        word.className = "word";
+        frag.appendChild(word);
       }
       var s = document.createElement("span");
       s.className = "ch";
       s.textContent = c;
-      frag.appendChild(s);
+      word.appendChild(s);
       chars.push(s);
     }
 
@@ -332,8 +341,10 @@
   var FIT_TARGET = 0.92;
 
   /* Measure with reveal transforms neutralised, then shrink the font and
-     re-measure until the widest line really sits inside its box. */
-  function fitOne(root, lineSel) {
+     re-measure until the widest line really sits inside its box.
+     maxVhFrac (optional) also caps the font against viewport height so
+     multi-line headlines can never push the hero past the fold. */
+  function fitOne(root, lineSel, maxVhFrac) {
     if (!root) return;
     var lines = lineSel ? $$(lineSel, root) : [root];
     if (!lines.length) return;
@@ -343,6 +354,7 @@
     var boxW = lines[0].clientWidth;
     if (!boxW) return;
     var limit = boxW * FIT_TARGET;
+    var cap = maxVhFrac ? window.innerHeight * maxVhFrac : Infinity;
 
     for (var pass = 0; pass < 4; pass++) {
       lines.forEach(function (l) { l.classList.add("is-measuring"); });
@@ -361,16 +373,28 @@
 
       var fs = parseFloat(window.getComputedStyle(root).fontSize);
       if (!fs) break;
-      root.style.fontSize = (fs * (limit / widest) * 0.995).toFixed(2) + "px";
+      var next = fs * (limit / widest) * 0.995;
+      if (next > cap) next = cap;
+      root.style.fontSize = next.toFixed(2) + "px";
     }
   }
 
   function fitHeadlines() {
-    fitOne($(".hero__title"), ".hero__line");
+    fitOne($(".hero__title"), ".hero__line", 0.135);
     fitOne($(".finale__title"), ".finale__title > span");
     fitOne($(".reveal__title"), ".reveal__title > span");
     fitOne($("#dynixMega"), null);
+
+    /* Headline sizes change layout heights → every ScrollTrigger position
+       (including the wishes pin distance) must be recalculated, otherwise
+       the horizontal track desyncs from the vertical scroll. */
+    if (hasST) {
+      clearTimeout(stRefreshTimer);
+      stRefreshTimer = setTimeout(function () { ScrollTrigger.refresh(); }, 80);
+    }
   }
+
+  var stRefreshTimer = null;
 
   var fitTimer = null;
   function scheduleFit() {
@@ -477,6 +501,9 @@
         { opacity: 0, y: 60, rotateX: -6 },
         {
           opacity: 1, y: 0, rotateX: 0, duration: 1.1, ease: EASE, stagger: 0.15,
+          /* drop the inline transform when done so the CSS-var based
+             3D tilt (perspective + --rx/--ry) takes over again */
+          clearProps: "transform",
           scrollTrigger: { trigger: "#cards", start: "top 82%", once: true }
         });
     }
@@ -538,7 +565,7 @@
       { opacity: 1, scale: 1, y: 0, duration: 1.3, ease: EASE, scrollTrigger: { trigger: ".gift", start: "top 85%", once: true } });
     gsap.fromTo("#unwrapBtn",
       { opacity: 0, y: 26 },
-      { opacity: 1, y: 0, duration: 1, ease: EASE, delay: 0.15, scrollTrigger: { trigger: ".gift", start: "top 85%", once: true } });
+      { opacity: 1, y: 0, duration: 1, ease: EASE, delay: 0.15, clearProps: "transform", scrollTrigger: { trigger: ".gift", start: "top 85%", once: true } });
 
     /* --- Finale --- */
     gsap.fromTo(".finale__title .ch",
@@ -551,6 +578,8 @@
       { opacity: 0, y: 26 },
       {
         opacity: 1, y: 0, duration: 1, ease: EASE, stagger: 0.12,
+        /* restore CSS-var magnetic transform on the replay button */
+        clearProps: "transform",
         scrollTrigger: { trigger: ".finale", start: "top 55%", once: true }
       });
 
@@ -565,7 +594,7 @@
     var track = $("#wishesTrack");
     if (!viewport || !track) return;
 
-    var desktop = window.matchMedia("(min-width: 981px)").matches;
+    var desktop = window.matchMedia("(min-width: 760px)").matches;
     if (!desktop || reduceMotion || !hasST) {
       document.body.classList.remove("h-scroll");
       return;
