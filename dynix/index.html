@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#08090D" />
+
+  <title>DYNIX — Happy Birthday, Nikhil</title>
+  <meta name="description" content="A legendary birthday experience made for Nikhil — DYNIX. Not just a birthday website. A digital experience." />
+  <meta name="author" content="Your brother" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="DYNIX — Happy Birthday, Nikhil" />
+  <meta property="og:description" content="A legend was born today. A cinematic digital birthday experience." />
+
+  <!-- Favicon: gold D monogram -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090D'/%3E%3Cpath d='M10 8h6a9 9 0 0 1 0 18h-6z' fill='none' stroke='%23D6B779' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="is-loading">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Scroll progress -->
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <!-- Chapter HUD -->
+  <div class="hud" id="hud" aria-hidden="true">
+    <div class="hud__track"><i id="hudFill"></i></div>
+    <div class="hud__meta">
+      <span class="hud__num" id="hudNum">01</span>
+      <span class="hud__name" id="hudName">Entrance</span>
+    </div>
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+    <span class="cursor__label" id="cursorLabel"></span>
+  </div>
+
+  <!-- ===================== LOADER ===================== -->
+  <div class="loader" id="loader" role="status" aria-live="polite" aria-label="Loading the DYNIX experience">
+    <div class="loader__inner">
+      <div class="loader__label">DYNIX EXPERIENCE</div>
+      <div class="loader__word" id="loaderWord" aria-hidden="true"></div>
+      <div class="loader__bar"><span id="loaderFill"></span></div>
+      <div class="loader__meta">
+        <span id="loaderPct">0</span>
+        <span>preparing the entrance</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__brand" data-cursor="TOP">DYNIX<span>.</span></a>
+
+      <nav class="nav__links" id="navLinks" aria-label="Sections">
+        <span class="nav__indicator" id="navIndicator" aria-hidden="true"></span>
+        <a href="#story" data-section="story">Story</a>
+        <a href="#dynix" data-section="dynix">The Name</a>
+        <a href="#message" data-section="message">Message</a>
+        <a href="#wishes" data-section="wishes">Wishes</a>
+        <a href="#surprise" data-section="surprise">Surprise</a>
+      </nav>
+
+      <div class="nav__right">
+        <span class="nav__date" aria-hidden="true">28.11</span>
+        <button class="sound" id="soundBtn" type="button" aria-pressed="false">
+          <span class="sound__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="sound__text">Sound off</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN ===================== -->
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero" data-chapter="01" data-name="Entrance" aria-labelledby="heroTitle">
+      <div class="hero__bg" aria-hidden="true">
+        <span class="orb orb--gold"></span>
+        <span class="orb orb--lav"></span>
+        <span class="orb orb--core"></span>
+        <span class="hero__grid"></span>
+      </div>
+      <canvas class="particles" id="particles" aria-hidden="true"></canvas>
+      <div class="hero__watermark" id="heroWatermark" aria-hidden="true">NIKHIL</div>
+
+      <div class="hero__inner">
+        <p class="eyebrow hero__eyebrow">
+          <span class="eyebrow__dot"></span>
+          A legend was born today
+        </p>
+
+        <h1 class="hero__title" id="heroTitle">
+          <span class="hero__line" data-split>Happy birthday,</span>
+          <span class="hero__line hero__line--gold" data-split>Dynix.</span>
+        </h1>
+
+        <div class="hero__lower">
+          <p class="hero__lede" data-fade>
+            Some people make the world a little brighter just by being in it.
+            Today, the spotlight belongs to you.
+          </p>
+
+          <div class="hero__cta" data-fade>
+            <a class="btn btn--gold" href="#story" data-magnetic data-cursor="ENTER">
+              <span>Enter the experience</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__meta" data-fade>
+        <div class="hero__date">
+          <span class="hero__dateBig">28</span>
+          <span class="hero__dateTxt">November<br />the day a legend arrived</span>
+        </div>
+        <div class="hero__scroll" aria-hidden="true">
+          <span class="hero__scrollTxt">Scroll</span>
+          <span class="hero__scrollLine"><i></i></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STORY ============ -->
+    <section class="story section" id="story" data-chapter="02" data-name="The Story" aria-labelledby="storyTitle">
+      <div class="story__grid">
+        <div class="story__left">
+          <div class="story__sticky">
+            <p class="label"><span>01</span> The story</p>
+            <h2 class="h-display" id="storyTitle">
+              <span data-line>Not just another</span>
+              <span data-line>year. Another</span>
+              <span data-line class="accent">chapter.</span>
+            </h2>
+            <div class="story__ticks" aria-hidden="true">
+              <span>past</span><i></i><span>present</span><i></i><span>next</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="story__right">
+          <p class="story__p" data-line>
+            Life is made of countless moments, unexpected memories, crazy adventures,
+            and people who make everything worthwhile. And you, <em>Nikhil</em>, are one
+            of those people who make ordinary moments special.
+          </p>
+          <p class="story__p" data-line>
+            Another year has passed, another chapter begins, and there's so much more
+            waiting for you. Keep growing, keep exploring, keep being yourself.
+          </p>
+
+          <figure class="plate" data-plate>
+            <div class="plate__art" aria-hidden="true">
+              <span class="plate__glow"></span>
+              <span class="plate__ring"></span>
+              <span class="plate__ring plate__ring--2"></span>
+              <span class="plate__core">02</span>
+            </div>
+            <figcaption class="plate__cap">
+              <span>Chapter archive</span>
+              <span>Every year, a better version</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE NAME ============ -->
+    <section class="dynix section section--alt" id="dynix" data-chapter="03" data-name="The Name" aria-labelledby="dynixTitle">
+      <div class="dynix__head">
+        <p class="label"><span>02</span> Identity</p>
+        <h2 class="h-display" id="dynixTitle">
+          <span data-line>The name is</span>
+          <span data-line class="accent">Dynix.</span>
+        </h2>
+        <p class="dynix__mega" id="dynixMega" aria-hidden="true">DYNIX</p>
+        <p class="dynix__sub" data-line>
+          Not just a name. It's an identity. A personality. A vibe of its own.
+        </p>
+      </div>
+
+      <div class="cards" id="cards">
+        <article class="card" data-card data-tilt>
+          <div class="card__glow" aria-hidden="true"></div>
+          <span class="card__num">01</span>
+          <h3 class="card__title">The Original</h3>
+          <p class="card__text">One of a kind. No duplicates, no comparisons.</p>
+          <span class="card__line" aria-hidden="true"></span>
+        </article>
+
+        <article class="card" data-card data-tilt>
+          <div class="card__glow" aria-hidden="true"></div>
+          <span class="card__num">02</span>
+          <h3 class="card__title">The Energy</h3>
+          <p class="card__text">Bringing his own vibe wherever life takes him.</p>
+          <span class="card__line" aria-hidden="true"></span>
+        </article>
+
+        <article class="card" data-card data-tilt>
+          <div class="card__glow" aria-hidden="true"></div>
+          <span class="card__num">03</span>
+          <h3 class="card__title">The Journey</h3>
+          <p class="card__text">Still evolving, still learning, still becoming something greater.</p>
+          <span class="card__line" aria-hidden="true"></span>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ MESSAGE ============ -->
+    <section class="message section" id="message" data-chapter="04" data-name="The Message" aria-labelledby="messageTitle">
+      <div class="message__inner">
+        <p class="label label--center"><span>03</span> From the heart</p>
+        <h2 class="h-display h-display--center" id="messageTitle">
+          <span data-line>One thing I want</span>
+          <span data-line>you to know<span class="accent">...</span></span>
+        </h2>
+
+        <div class="message__body" id="messageBody">
+          <p data-mline>Brother, life won't always be easy, and every chapter won't be perfect. But I hope you never stop believing in yourself.</p>
+          <p data-mline>May you get everything you've been working for. May your dreams become your reality, your struggles become your strength, and your smile never lose its spark.</p>
+          <p data-mline>No matter how many birthdays come and go, always remember that you're special, and I'm genuinely lucky to have you as my brother.</p>
+          <p data-mline class="message__kicker">Keep shining, Nikhil. The best chapters are still unwritten.</p>
+        </div>
+
+        <div class="message__sign" data-mline>
+          <span class="message__rule" aria-hidden="true"></span>
+          <p>Always your brother.<br />Always your supporter.</p>
+          <span class="message__rule" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WISHES ============ -->
+    <section class="wishes section section--alt" id="wishes" data-chapter="05" data-name="The Wishes" aria-labelledby="wishesTitle">
+      <div class="wishes__head">
+        <p class="label"><span>04</span> Next chapter</p>
+        <h2 class="h-display" id="wishesTitle">
+          <span data-line>Your next chapter</span>
+          <span data-line class="accent">starts now.</span>
+        </h2>
+      </div>
+
+      <div class="wishes__viewport" id="wishesViewport">
+        <ul class="wishes__track" id="wishesTrack">
+          <li class="wish" data-wish>
+            <span class="wish__num">01</span>
+            <svg class="wish__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4l3.4 7.6L27 15l-7.6 3.4L16 26l-3.4-7.6L5 15l7.6-3.4z" /></svg>
+            <h3>More happiness</h3>
+            <p>The quiet kind that stays, long after the day ends.</p>
+          </li>
+          <li class="wish" data-wish>
+            <span class="wish__num">02</span>
+            <svg class="wish__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 24L16 6l10 18z" /></svg>
+            <h3>Bigger achievements</h3>
+            <p>Goals that once looked impossible become your baseline.</p>
+          </li>
+          <li class="wish" data-wish>
+            <span class="wish__num">03</span>
+            <svg class="wish__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 22c6-10 18-10 24 0M10 12l4-4 4 4" /></svg>
+            <h3>Unforgettable adventures</h3>
+            <p>Stories you'll still be telling ten years from now.</p>
+          </li>
+          <li class="wish" data-wish>
+            <span class="wish__num">04</span>
+            <svg class="wish__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 16h20M20 10l6 6-6 6" /></svg>
+            <h3>Endless opportunities</h3>
+            <p>Doors opening exactly when you're ready to walk through.</p>
+          </li>
+          <li class="wish" data-wish>
+            <span class="wish__num">05</span>
+            <svg class="wish__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 20a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM23 20a5 5 0 1 0 0-10" /></svg>
+            <h3>Stronger friendships</h3>
+            <p>People who show up, not just when it's convenient.</p>
+          </li>
+          <li class="wish" data-wish>
+            <span class="wish__num">06</span>
+            <svg class="wish__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" /></svg>
+            <h3>Dreams turning real</h3>
+            <p>Everything you've been quietly working toward, arriving.</p>
+          </li>
+          <li class="wish" data-wish>
+            <span class="wish__num">07</span>
+            <svg class="wish__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20l6-8 5 5 4-6 7 9z" /></svg>
+            <h3>Success beyond expectation</h3>
+            <p>Past the number you wrote down. Past the version you imagined.</p>
+          </li>
+        </ul>
+      </div>
+
+      <p class="wishes__hint" aria-hidden="true">scroll to unfold →</p>
+    </section>
+
+    <!-- ============ SURPRISE ============ -->
+    <section class="surprise section" id="surprise" data-chapter="06" data-name="The Surprise" aria-labelledby="surpriseTitle">
+      <div class="surprise__inner">
+        <p class="label label--center"><span>05</span> Don't scroll past</p>
+        <h2 class="h-display h-display--center" id="surpriseTitle">
+          <span data-line>Wait... there's</span>
+          <span data-line class="accent">something for you.</span>
+        </h2>
+
+        <div class="gift" id="gift">
+          <div class="gift__stage" aria-hidden="true">
+            <span class="gift__halo"></span>
+            <div class="gift__box">
+              <div class="gift__lid">
+                <span class="gift__bow"></span>
+                <span class="gift__ribbonV"></span>
+              </div>
+              <div class="gift__body">
+                <span class="gift__ribbonV"></span>
+                <span class="gift__shine"></span>
+              </div>
+              <span class="gift__spark s1"></span>
+              <span class="gift__spark s2"></span>
+              <span class="gift__spark s3"></span>
+              <span class="gift__spark s4"></span>
+            </div>
+            <span class="gift__shadow"></span>
+          </div>
+
+          <button class="btn btn--gold btn--lg" id="unwrapBtn" type="button" data-magnetic data-cursor="OPEN">
+            <span>Unwrap your surprise</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </button>
+
+          <p class="gift__hint" id="giftHint">One click. No take-backs.</p>
+        </div>
+
+        <div class="reveal" id="reveal" hidden>
+          <p class="reveal__eyebrow">It was never about the gift</p>
+          <h3 class="reveal__title" id="revealTitle" aria-label="Happy Birthday, Nikhil!">
+            <span class="reveal__l1" data-split>Happy Birthday,</span>
+            <span class="reveal__l2" data-split>Nikhil!</span>
+          </h3>
+          <p class="reveal__sub">Make this year unforgettable.</p>
+          <div class="reveal__actions">
+            <button class="btn btn--ghost" id="againBtn" type="button">
+              <span>Play it again</span>
+            </button>
+            <a class="btn btn--ghost" href="#finale">
+              <span>To the finale</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINALE ============ -->
+    <section class="finale section section--alt" id="finale" data-chapter="07" data-name="Finale" aria-labelledby="finaleTitle">
+      <div class="finale__bg" aria-hidden="true">
+        <span class="orb orb--gold"></span>
+        <span class="orb orb--lav"></span>
+      </div>
+
+      <div class="finale__inner">
+        <p class="label label--center"><span>06</span> Finale</p>
+        <h2 class="finale__title" id="finaleTitle">
+          <span data-split>Stay</span>
+          <span data-split class="accent">Legendary.</span>
+        </h2>
+
+        <p class="finale__wish">Happy birthday, Dynix.</p>
+        <p class="finale__sub">
+          Here's to another year of memories, madness, growth, and greatness.
+        </p>
+
+        <a class="btn btn--gold btn--lg" href="#hero" id="replayBtn" data-magnetic data-cursor="AGAIN">
+          <span>Replay the experience</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10M7 17L17 7" /></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__note">Made with love, for my brother.</p>
+      <div class="footer__meta" aria-hidden="true">
+        <span>DYNIX EXPERIENCE</span>
+        <span>28 · 11</span>
+        <span>CH. 07 / 07</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Confetti layer -->
+  <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+
+  <noscript>
+    <div style="padding:4rem 1.5rem;text-align:center;color:#F5F3EF;background:#08090D;font-family:sans-serif">
+      This experience needs JavaScript. Please enable it to wish Nikhil a happy birthday.
+    </div>
+  </noscript>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
