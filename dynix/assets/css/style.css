@@ -263,53 +263,6 @@ body::after {
 .hud__num { color: var(--gold); }
 .hud__name { color: var(--ink-40); }
 
-.cursor {
-  position: fixed;
-  top: 0; left: 0;
-  z-index: 90;
-  pointer-events: none;
-  display: none;
-  mix-blend-mode: normal;
-}
-.cursor__dot {
-  position: absolute;
-  width: 6px; height: 6px;
-  margin: -3px 0 0 -3px;
-  border-radius: 50%;
-  background: var(--gold);
-}
-.cursor__ring {
-  position: absolute;
-  width: 38px; height: 38px;
-  margin: -19px 0 0 -19px;
-  border: 1px solid var(--gold-dim);
-  border-radius: 50%;
-  transition: width 0.4s var(--ease), height 0.4s var(--ease), margin 0.4s var(--ease), background 0.4s, border-color 0.4s;
-}
-.cursor__label {
-  position: absolute;
-  left: 0; top: 0;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.18em;
-  color: #100F14;
-  opacity: 0;
-  transition: opacity 0.3s;
-  white-space: nowrap;
-}
-.cursor.is-active .cursor__ring {
-  width: 78px; height: 78px;
-  margin: -39px 0 0 -39px;
-  background: var(--gold);
-  border-color: var(--gold);
-}
-.cursor.is-active .cursor__dot { opacity: 0; }
-.cursor.is-active .cursor__label { opacity: 1; }
-@media (hover: hover) and (pointer: fine) {
-  .cursor { display: block; }
-}
-
 /* ---------- loader ---------- */
 
 .loader {
@@ -564,13 +517,20 @@ body::after {
 .hero__inner { max-width: var(--maxw); margin: 0 auto; width: 100%; }
 .hero__eyebrow { margin-bottom: clamp(1.4rem, 3vw, 2.2rem); }
 .hero__title {
-  font-size: clamp(3rem, 13vw, 11rem);
+  font-size: clamp(2rem, 10.8vw, 10.5rem);
   text-transform: uppercase;
   letter-spacing: -0.045em;
-  line-height: 0.86;
+  line-height: 0.94;
   font-weight: 800;
 }
-.hero__line { display: block; overflow: hidden; padding-bottom: 0.04em; }
+/* overflow:hidden drives the reveal mask, so it needs bottom room for
+   descenders (y, p, g) or "BIRTHDAY" gets its tail cut off */
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.07em;
+}
 .hero__line--gold {
   background: linear-gradient(96deg, #E7CE9A 0%, var(--gold) 38%, var(--lav) 108%);
   -webkit-background-clip: text;
@@ -579,7 +539,7 @@ body::after {
 }
 .hero__line .ch {
   display: inline-block;
-  transform: translateY(115%) rotate(4deg);
+  transform: translateY(135%) rotate(4deg);
   will-change: transform;
 }
 .hero__line .sp { width: 0.28em; }
@@ -1207,14 +1167,19 @@ body::after {
 .finale__bg .orb--gold { right: -20vw; top: auto; bottom: -25vw; }
 .finale__inner { max-width: 1000px; }
 .finale__title {
-  font-size: clamp(3rem, 13vw, 11rem);
+  font-size: clamp(2.5rem, 11.5vw, 10.5rem);
   text-transform: uppercase;
   letter-spacing: -0.05em;
   line-height: 0.86;
   font-weight: 800;
 }
-.finale__title span { display: block; overflow: hidden; padding-bottom: 0.05em; }
-.finale__title .ch { display: inline-block; transform: translateY(115%); }
+.finale__title span {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.07em;
+}
+.finale__title .ch { display: inline-block; transform: translateY(135%); }
 .finale__title .sp { width: 0.28em; }
 .finale__wish {
   margin-top: clamp(2rem, 5vw, 3.2rem);
@@ -1271,6 +1236,10 @@ body::after {
 [data-line], [data-fade], [data-plate], [data-card], [data-wish], [data-mline] {
   will-change: transform, opacity;
 }
+
+/* JS measures headline width with reveal transforms neutralised */
+.is-measuring .ch,
+.is-measuring i { transform: none !important; }
 
 /* ---------- responsive ---------- */
 

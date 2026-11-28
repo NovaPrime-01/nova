@@ -112,48 +112,6 @@
   }
 
   /* ---------------------------------------------------------
-     Custom cursor
-  --------------------------------------------------------- */
-  function initCursor() {
-    if (!finePointer || reduceMotion) return;
-    var cursor = $("#cursor");
-    var label = $("#cursorLabel");
-    if (!cursor) return;
-
-    var dot = $(".cursor__dot", cursor);
-    var ring = $(".cursor__ring", cursor);
-    var x = window.innerWidth / 2, y = window.innerHeight / 2;
-    var rx = x, ry = y;
-
-    window.addEventListener("mousemove", function (e) {
-      x = e.clientX; y = e.clientY;
-      dot.style.transform = "translate(" + x + "px," + y + "px)";
-    }, { passive: true });
-
-    (function loop() {
-      rx += (x - rx) * 0.16;
-      ry += (y - ry) * 0.16;
-      ring.style.transform = "translate(" + rx + "px," + ry + "px)";
-      if (label) label.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%, -50%)";
-      requestAnimationFrame(loop);
-    })();
-
-    var hoverables = "a, button, [data-tilt], [data-cursor]";
-    document.addEventListener("mouseover", function (e) {
-      var t = e.target.closest(hoverables);
-      if (!t) return;
-      cursor.classList.add("is-active");
-      var l = t.getAttribute("data-cursor");
-      if (label) label.textContent = l ? l : (t.tagName === "A" || t.tagName === "BUTTON" ? "" : "");
-    });
-    document.addEventListener("mouseout", function (e) {
-      if (e.target.closest(hoverables) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(hoverables))) {
-        cursor.classList.remove("is-active");
-      }
-    });
-  }
-
-  /* ---------------------------------------------------------
      Ambient particles (hero)
   --------------------------------------------------------- */
   function initParticles() {
@@ -361,6 +319,73 @@
         card.style.setProperty("--rx", "0deg");
       });
     });
+  }
+
+  /* ---------------------------------------------------------
+     Auto-fit headlines
+     The clamp() sizes above are a starting point. Font metrics
+     differ between Syne and the system fallback, so after layout
+     we measure the real rendered width and shrink the font until
+     the widest line sits inside its box. Keeps big type from ever
+     touching or clipping the edges on any device.
+  --------------------------------------------------------- */
+  var FIT_TARGET = 0.92;
+
+  /* Measure with reveal transforms neutralised, then shrink the font and
+     re-measure until the widest line really sits inside its box. */
+  function fitOne(root, lineSel) {
+    if (!root) return;
+    var lines = lineSel ? $$(lineSel, root) : [root];
+    if (!lines.length) return;
+
+    root.style.fontSize = "";
+
+    var boxW = lines[0].clientWidth;
+    if (!boxW) return;
+    var limit = boxW * FIT_TARGET;
+
+    for (var pass = 0; pass < 4; pass++) {
+      lines.forEach(function (l) { l.classList.add("is-measuring"); });
+
+      var widest = 0;
+      lines.forEach(function (l) {
+        if (!l.getBoundingClientRect().width) return;
+        var range = document.createRange();
+        range.selectNodeContents(l);
+        widest = Math.max(widest, range.getBoundingClientRect().width);
+      });
+
+      lines.forEach(function (l) { l.classList.remove("is-measuring"); });
+
+      if (!widest || widest <= limit) break;
+
+      var fs = parseFloat(window.getComputedStyle(root).fontSize);
+      if (!fs) break;
+      root.style.fontSize = (fs * (limit / widest) * 0.995).toFixed(2) + "px";
+    }
+  }
+
+  function fitHeadlines() {
+    fitOne($(".hero__title"), ".hero__line");
+    fitOne($(".finale__title"), ".finale__title > span");
+    fitOne($(".reveal__title"), ".reveal__title > span");
+    fitOne($("#dynixMega"), null);
+  }
+
+  var fitTimer = null;
+  function scheduleFit() {
+    clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitHeadlines, 140);
+  }
+
+  /* Font swaps change the metrics, so refit at each of these points. */
+  function armFit() {
+    fitHeadlines();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitHeadlines).catch(function () {});
+    }
+    window.addEventListener("load", fitHeadlines);
+    setTimeout(fitHeadlines, 1200);
   }
 
   /* ---------------------------------------------------------
@@ -785,6 +810,7 @@
 
       setTimeout(function () {
         reveal.hidden = false;
+        fitHeadlines();
         playReveal();
         if (hasST) setTimeout(function () { ScrollTrigger.refresh(); }, 600);
       }, 700);
@@ -829,12 +855,13 @@
      Boot
   --------------------------------------------------------- */
   function boot() {
-    initCursor();
     initParticles();
     initNav();
     initMagnetic();
     initTilt();
     initScrollAnimations();
+    armFit();
+    window.addEventListener("resize", scheduleFit);
     initSurprise();
     initReplay();
 
